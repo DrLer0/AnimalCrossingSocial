@@ -55,6 +55,21 @@ const UsersToolbar = props => {
           placeholder="Search user"
         />
       </div>
+      {/* <div>
+        <Paper square>
+          <Tabs
+            value="{value}"
+            indicatorColor="primary"
+            textColor="primary"
+            onChange="{handleChange}"
+            aria-label="disabled tabs example"
+          >
+            <Tab label="Active" />
+            <Tab label="Disabled" disabled />
+            <Tab label="Active" />
+          </Tabs>
+        </Paper>
+      </div> */}
     </div>
   );
 };
