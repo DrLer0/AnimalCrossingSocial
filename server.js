@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
+const db = require("./models");
+
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -13,6 +15,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Define API routes here
 // An api endpoint that returns a short list of items
+//move routes to routes folder and require here
 app.get('/api/getList', (req,res) => {
   var list = ["item1", "item2", "item3"];
   res.json(list);
@@ -25,6 +28,9 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
+db.sequelize.sync().then(function() {
 app.listen(PORT, () => {
   console.log(`🌎 ==> API server now on port ${PORT}!`);
+});
+
 });
