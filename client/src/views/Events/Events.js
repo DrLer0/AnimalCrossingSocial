@@ -20,10 +20,11 @@ const Events = () => {
 
   return (
     <div className={classes.root}>
-      <UsersToolbar />
+      API Data here for Reddit?
+      {/* <UsersToolbar />
       <div className={classes.content}>
         <UsersTable users={users} />
-      </div>
+      </div> */}
     </div>
   );
 };

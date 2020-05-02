@@ -10,6 +10,7 @@ import {
   CardContent,
   Avatar,
   Checkbox,
+  Link,
   Table,
   TableBody,
   TableCell,
@@ -145,7 +146,7 @@ const UsersTable = props => {
                         >
                           {getInitials(user.name)}
                         </Avatar>
-                        <Typography variant="body1">{user.name}</Typography>
+                        <Typography variant="body1"><Link href='/profile'>{user.name}</Link></Typography>
                       </div>
                     </TableCell>
                     <TableCell>{user.email}</TableCell>

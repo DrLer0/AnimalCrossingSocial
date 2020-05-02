@@ -3,14 +3,14 @@ import uuid from 'uuid/v1';
 export default [
   {
     id: uuid(),
-    name: 'Ekaterina Tankova',
+    name: 'Jason Smith',
     address: {
       country: 'USA',
       state: 'West Virginia',
       city: 'Parkersburg',
       street: '2849 Fulton Street'
     },
-    email: 'ekaterina.tankova@devias.io',
+    email: 'js@gmail.com',
     phone: '304-428-3097',
     avatarUrl: '/images/avatars/avatar_3.png',
     createdAt: 1555016400000
