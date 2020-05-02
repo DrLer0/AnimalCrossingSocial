@@ -11,6 +11,7 @@ import ImageIcon from '@material-ui/icons/Image';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 
 import { Profile, SidebarNav } from './components';
 
@@ -77,6 +78,11 @@ const Sidebar = props => {
       title: 'Account',
       href: '/account',
       icon: <AccountBoxIcon />
+    },
+    {
+      title: 'Chat',
+      href: '/chat',
+      icon: <ChatBubbleIcon />
     },
     {
       title: 'Settings',
