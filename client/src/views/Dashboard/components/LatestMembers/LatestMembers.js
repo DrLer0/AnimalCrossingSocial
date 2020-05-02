@@ -50,7 +50,7 @@ const statusColors = {
   refunded: 'danger'
 };
 
-const LatestOrders = props => {
+const LatestMembers = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -63,16 +63,16 @@ const LatestOrders = props => {
       className={clsx(classes.root, className)}
     >
       <CardHeader
-        action={
-          <Button
-            color="primary"
-            size="small"
-            variant="outlined"
-          >
-            New entry
-          </Button>
-        }
-        title="Latest Orders"
+        // action={
+        //   <Button
+        //     color="primary"
+        //     size="small"
+        //     variant="outlined"
+        //   >
+        //     New entry
+        //   </Button>
+        // }
+        title="Latest members"
       />
       <Divider />
       <CardContent className={classes.content}>
@@ -133,6 +133,7 @@ const LatestOrders = props => {
           color="primary"
           size="small"
           variant="text"
+          href="/users"
         >
           View all <ArrowRightIcon />
         </Button>
@@ -141,8 +142,8 @@ const LatestOrders = props => {
   );
 };
 
-LatestOrders.propTypes = {
+LatestMembers.propTypes = {
   className: PropTypes.string
 };
 
-export default LatestOrders;
+export default LatestMembers;

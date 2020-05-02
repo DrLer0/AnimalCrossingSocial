@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const LatestSales = props => {
+const LatestTurnipPrices = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -46,7 +46,7 @@ const LatestSales = props => {
             Last 7 days <ArrowDropDownIcon />
           </Button>
         }
-        title="Latest Sales"
+        title="Latest turnip prices"
       />
       <Divider />
       <CardContent>
@@ -71,8 +71,8 @@ const LatestSales = props => {
   );
 };
 
-LatestSales.propTypes = {
+LatestTurnipPrices.propTypes = {
   className: PropTypes.string
 };
 
-export default LatestSales;
+export default LatestTurnipPrices;
