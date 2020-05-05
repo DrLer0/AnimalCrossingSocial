@@ -6,19 +6,45 @@ import { StreamChat } from 'stream-chat';
 
 import 'stream-chat-react/dist/css/index.css';
 
+// ----------------------------------------------------------
 // move to server.js later when we start registering users/logging in
 const chatClient = new StreamChat('uzy7f9qpss8w', 'g3v4w9qwmxr9epxfv28dakb3ywck8jx3jj7s4evh5hxzfjyuwzm2gqztvnjnxpzj');
+
+// for production use userToken
+// devToken for development
 // const userToken = chatClient.createToken('john');
 chatClient.setUser(
   {
-      id: 'Fred',
-      name: 'Fred Doe',
+      id: 'Jon',
+      name: 'Jon D',
       image: 'https://getstream.io/random_svg/?name=John',
   },
-  chatClient.devToken('Fred'),
+  // userToken
+  chatClient.devToken('Jon')
 );
-// pass in usertoken in place of devToken
-// or pass in chatClient from server.js
+// or pass in chatClient from server.js using modules/export
+// ----------------------------------------------------------
+
+// Uncomment to sign in as a different user and comment out the one above
+// ----------------------------------------------------------
+// move to server.js later when we start registering users/logging in
+
+// const chatClient = new StreamChat('r8s5seqdx9c4', '2j47qttc3uxpatpfmcy857zrrgd43rjjw4sawabancvjms6jpgemk5tts82hk38r');
+
+// // for production use userToken
+// // devToken for development
+// // const userToken = chatClient.createToken('Some1');
+// chatClient.setUser(
+//   {
+//       id: 'Some1',
+//       name: 'Any One',
+//       image: 'https://getstream.io/random_svg/?name=John',
+//   },
+//   // userToken
+//   chatClient.devToken('Some1')
+// );
+// // or pass in chatClient from server.js using modules/export
+// // ----------------------------------------------------------
 
 // custom channel preview component
 class MyChannelPreview extends React.Component {
@@ -46,15 +72,6 @@ class MyMessageComponent extends React.Component {
     return <div><b>{this.props.message.user.name}</b> {this.props.message.text}</div>;
   }
 }
-
-// chatClient.setUser(
-//   {
-//     id: 'john',
-//     name: 'Jo Hn',
-//     image: 'https://getstream.io/random_svg/?id=winter-block-0&name=Winter+block'
-//   },
-//   userToken,
-// );
 
 const filters = { type: 'messaging', members: { $in: ['winter-block-0'] } };
 const sort = { last_message_at: -1 };
