@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes){
             values: ['buy','sell']
         },
         price: {
-            anount: DataTypes.INTEGER,
+            type: DataTypes.INTEGER,
             required: true
         },
         dodoCode:DataTypes.STRING, //not required

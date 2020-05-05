@@ -1,7 +1,7 @@
 //to be used for passport; feel free to change name
 module.exports = function (sequelize, DataTypes){
     const User = sequelize.define('User', {
-        id: {
+        user_id: {
             type: DataTypes.UUID,
             primaryKey: true,
             defaultValue: DataTypes.UUIDV4,
@@ -16,11 +16,11 @@ module.exports = function (sequelize, DataTypes){
         creatorCode:DataTypes.STRING //not required
     }, {});
     User.associate = function(models){
-        User.hasOne(models.event, {as: 'event'})
+        User.hasOne(models.Event, {as: 'event'})
     };
 
     User.associate = function (models){
-        User.hasMany(models.yardSale, {as:'yardSale'})
+        User.hasMany(models.YardSale, {as:'yardSale'})
     };
 
     //time permitting, add custom designs

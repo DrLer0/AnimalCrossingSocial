@@ -16,11 +16,19 @@ if (process.env.NODE_ENV === "production") {
 // Define API routes here
 // An api endpoint that returns a short list of items
 //move routes to routes folder and require here
-app.get('/api/getList', (req,res) => {
-  var list = ["item1", "item2", "item3"];
-  res.json(list);
-  console.log('Sent list of items');
-});
+
+//routes
+//==============================
+require("./routes/api/user-api-routes")(app);
+require("./routes/api/event-api-routes")(app);
+require("./routes/api/yardSale-api-routes")(app);
+//add other routes (e.g. html routes, authroutes)
+//remove this code, replaced with routes
+// app.get('/api/getList', (req,res) => {
+//   var list = ["item1", "item2", "item3"];
+//   res.json(list);
+//   console.log('Sent list of items');
+// });
 
 // Send every other request to the React app
 // Define any API routes before this runs

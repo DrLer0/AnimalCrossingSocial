@@ -19,9 +19,7 @@ module.exports = function (sequelize, DataTypes){
         dodoCode: DataTypes.STRING, //not required
     }, 
     {});
-
-            dodoCode:DataTypes.STRING, //not required
-
+    
     Event.associate=function(models){
         Event.belongsTo(models.User, {foreignKey: 'userID', as: 'user'})
     };
