@@ -10,6 +10,7 @@ import {
   UserList as UserListView,
   Icons as IconsView,
   Account as AccountView,
+  Profile as ProfileView,
   Events as EventsView,
   Settings as SettingsView,
   SignUp as SignUpView,
@@ -54,6 +55,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/account"
+      />
+      <RouteWithLayout
+        component={ProfileView}
+        exact
+        layout={MainLayout}
+        path="/profile"
       />
       <RouteWithLayout
         component={EventsView}

@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const UsersByDevice = props => {
+const Profile = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -110,16 +110,17 @@ const UsersByDevice = props => {
       className={clsx(classes.root, className)}
     >
       <CardHeader
-        action={
-          <IconButton size="small">
-            <RefreshIcon />
-          </IconButton>
-        }
-        title="Users By Device"
+        // action={
+        //   <IconButton size="small">
+        //     <RefreshIcon />
+        //   </IconButton>
+        // }
+        title="Your profile"
       />
       <Divider />
       <CardContent>
-        <div className={classes.chartContainer}>
+        <div>Content here</div>
+        {/* <div className={classes.chartContainer}>
           <Doughnut
             data={data}
             options={options}
@@ -141,14 +142,14 @@ const UsersByDevice = props => {
               </Typography>
             </div>
           ))}
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   );
 };
 
-UsersByDevice.propTypes = {
+Profile.propTypes = {
   className: PropTypes.string
 };
 
-export default UsersByDevice;
+export default Profile;

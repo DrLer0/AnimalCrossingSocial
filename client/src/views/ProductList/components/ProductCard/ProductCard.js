@@ -11,7 +11,7 @@ import {
   Divider
 } from '@material-ui/core';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import GetAppIcon from '@material-ui/icons/GetApp';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -86,19 +86,19 @@ const ProductCard = props => {
               display="inline"
               variant="body2"
             >
-              Updated 2hr ago
+              Added 2hr ago
             </Typography>
           </Grid>
           <Grid
             className={classes.statsItem}
             item
           >
-            <GetAppIcon className={classes.statsIcon} />
+            <AttachMoneyIcon className={classes.statsIcon} />
             <Typography
               display="inline"
               variant="body2"
             >
-              {product.totalDownloads} Downloads
+              {product.totalDownloads}
             </Typography>
           </Grid>
         </Grid>
