@@ -2,7 +2,7 @@
     "development": {
       "username": "root",
       "password": "568csb8i",
-      "database": "blogger",
+      "database": "animalCrossing",
       "host": "127.0.0.1",
       "port": 3306,
       "dialect": "mysql"
