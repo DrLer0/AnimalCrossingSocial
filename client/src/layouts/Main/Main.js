@@ -6,6 +6,9 @@ import { useMediaQuery } from '@material-ui/core';
 
 import { Sidebar, Topbar, Footer } from './components';
 
+import { connect } from "react-redux";
+import { logoutUser } from "../../actions/authActions";
+
 const useStyles = makeStyles(theme => ({
   root: {
     paddingTop: 56,
@@ -43,6 +46,12 @@ const Main = props => {
 
   const shouldOpenSidebar = isDesktop ? true : openSidebar;
 
+  const onLogoutClick = e => {
+    e.preventDefault();
+    props.logoutUser();
+    console.log('logging out')
+  };
+
   return (
     <div
       className={clsx({
@@ -50,7 +59,7 @@ const Main = props => {
         [classes.shiftContent]: isDesktop
       })}
     >
-      <Topbar onSidebarOpen={handleSidebarOpen} />
+      <Topbar onSidebarOpen={handleSidebarOpen} logoutButton={onLogoutClick} />
       <Sidebar
         onClose={handleSidebarClose}
         open={shouldOpenSidebar}
@@ -65,7 +74,18 @@ const Main = props => {
 };
 
 Main.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
-export default Main;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(Main);
+
+// export default Main;
