@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    username: {
+    email: {
         type: String,
         unique: true
     }, 
@@ -11,9 +11,9 @@ const UserSchema = new Schema({
     photo: String,
     islandName: String,
     localFruit: String,
-    creatorCode: String,
+    // creatorCode: String,
 
-    events: [
+    events: [//create event first, get id of event, update user
         {
         type: Schema.Types.ObjectId,
         ref: "Event"

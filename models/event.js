@@ -2,12 +2,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const EventSchema = new Schema ({
-   event: String,
-   transaction: {
+   event: {
        enum: ['turnips', 'hot item', 'celeste (character)', 'sahara (character)'],
    }, 
    salePrice: String,
-   entryFee: String,
+   entryFee: String
 
 });
 

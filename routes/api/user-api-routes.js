@@ -9,6 +9,16 @@ const express = require('express'),
 //get all users
 //get specific user, populated
 
+app.post("/users", function(req,res){
+    console.log("post user:", req.body)
+    db.User.create(req.body)
+    .then(function(dbUser){
+        console.log(dbUser)
+        res.json(dbUser)
+    })
+
+})
+
 app.get("/users", function(req,res){
     db.User.find({})
     .then(function(dbUser){
@@ -17,21 +27,25 @@ app.get("/users", function(req,res){
 });
 
 //get route for specific user
-app.get("/users/:id", function(req,res){
-    db.User.findOne({
-
+app.get("/users/:id", function(req,res){   // when you need all the info from 1 user and the events and design for this user
+    db.User.findOne({_id: req.params.id})
+    .populate("events")
+    .populate("designs")
+    .then(function(dbUser){
+        console.log("/api/user/id: ", dbUser)
+        res.json(dbUser)
     })
 })
 
-app.get("/populated", function(req,res){
-    db.User.find({})
-    .populate("events")
-    .populate("designs")
-    .then(function(dbUswer))
-})
-.catch(function(err){
-    res.json(err);
-});
+// app.get("/populated", function(req,res){   // all the users with all the detailed info from events and designs
+//     db.User.find({})
+//     .populate("events")
+//     .populate("designs")
+//     .then(function(dbUswer)
+// })
+// .catch(function(err){
+//     res.json(err);
+// })
 
 
 module.exports = router;

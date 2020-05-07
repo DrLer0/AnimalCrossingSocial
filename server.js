@@ -5,8 +5,13 @@ const bodyParser = require("body-parser");
 //const passport = require("passport");
 const path = require("path");
 
+const routesEvents = require ("./routes/api/event-api-routes");
+const routesUser = require ("./routes/api/user-api-routes");
+const routesDesigns = require ("./routes/api/design-api-routes");
+
+
 // DB Config
-const db = require("./models")
+const db = require("./models");
 
 const port = process.env.PORT || 3001; // process.env.port is Heroku's port if you choose to deploy the app there
 
@@ -31,15 +36,21 @@ if (process.env.NODE_ENV === "production") {
 // // DB Config
 // const db = require("./models")
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost/animal-crossing-app", { useNewURLParser: true});
+//add heroku connection
+
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/animal-crossing-app";
+
+
+mongoose.connect(MONGODB_URI, { useNewURLParser: true});
 // Passport middleware
 //app.use(passport.initialize());
 // Passport config
 //require("./config/passport")(passport);
 // Routes
-require ("./routes/api/event-api-routes")(app);
-require ("./routes/api/user-api-routes")(app);
-require ("./routes/api/design-api-routes")(app);
+
+app.use(routesUser)
+app.use(routesEvents)
+app.use(routesDesigns)
 //app.use("/api/users", users);
 // Define API routes here
 // An api endpoint that returns a short list of items
