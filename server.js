@@ -1,25 +1,17 @@
 const express = require("express");
-var logger = require("morgan");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-//const passport = require("passport");
+const passport = require("passport");
 const path = require("path");
-
-const routesEvents = require ("./routes/api/event-api-routes");
-const routesUser = require ("./routes/api/user-api-routes");
-const routesDesigns = require ("./routes/api/design-api-routes");
-
-
-// DB Config
-const db = require("./models");
 
 const port = process.env.PORT || 3001; // process.env.port is Heroku's port if you choose to deploy the app there
 
-//const users = require("./routes/api/users");
+const users = require("./routes/api/users");
+const routesEvents = require("./routes/api/events-api-routes");
+const routesDesigns = require("./routes/api/design-api-routes")
 const app = express();
-// Bodyparser middleware
 
-app.use(logger("dev"));
+// Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
     extended: false
@@ -48,10 +40,28 @@ mongoose.connect(MONGODB_URI, { useNewURLParser: true});
 //require("./config/passport")(passport);
 // Routes
 
-app.use(routesUser)
+
+
+//app.use("/api/users", users);
+
+// Connect to MongoDB
+mongoose
+  .connect(
+    db,
+    { useNewUrlParser: true }
+  )
+  .then(() => console.log("MongoDB successfully connected"))
+  .catch(err => console.log(err));
+
+// Passport middleware
+app.use(passport.initialize());
+// Passport config
+require("./config/passport")(passport);
+// Routes
+app.use("/api/users", users);
 app.use(routesEvents)
 app.use(routesDesigns)
-//app.use("/api/users", users);
+
 // Define API routes here
 // An api endpoint that returns a short list of items
 // app.get('/api/getList', (req,res) => {
@@ -64,11 +74,7 @@ app.use(routesDesigns)
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
+
 app.listen(port, () => {
-  console.log(`:earth_americas: ==> API server now on port ${port}!`);
+  console.log(`🌎 ==> API server now on port ${port}!`);
 });
-
-
-
-
-
