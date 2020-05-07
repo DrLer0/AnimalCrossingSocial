@@ -36,6 +36,15 @@ app.get("/users/:id", function(req,res){   // when you need all the info from 1 
         res.json(dbUser)
     })
 })
+//get route for specific user
+app.get("/users/designs/:id", function(req,res){   // when you need all the info from 1 user and the events and design for this user
+    db.User.findOne({_id: req.params.id})
+    .populate("designs")
+    .then(function(dbUser){
+        console.log("/api/user/id: ", dbUser)
+        res.json(dbUser)
+    })
+})
 
 // app.get("/populated", function(req,res){   // all the users with all the detailed info from events and designs
 //     db.User.find({})

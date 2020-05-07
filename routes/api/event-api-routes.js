@@ -14,12 +14,12 @@ const express = require('express'),
 //routes
 
 //post route for saving new Event to db and associating it with a user
-app.post("/submit-event", function(req,res) {
+router.post("/event/:userId", function(req,res) {
     console.log(req.body);
     db.Event.create(req.body)
     .then(function(dbEvent){
 
-        return db.User.findOneAndUpdate({}, {$push: {events: dbEvent._id } }, {new: true});
+        return db.User.findOneAndUpdate({_id:req.params.userId}, {$push: {events: dbEvent._id } }, {new: true});
 
     })
     .then(function(dbUser){
@@ -32,8 +32,8 @@ app.post("/submit-event", function(req,res) {
 });
 
 //route for getting all events from the db
-app.get("/events", function(req,res){
-    db.Event.find({})
+router.delete("/events/:id", function(req,res){
+    db.Event.findOneAndDelete({_id:req.params.id})
     .then(function(dbEvent){
         res.json(dbEvent);
     })
@@ -42,10 +42,16 @@ app.get("/events", function(req,res){
     });
 });
 
+//confirm that when event delete, event id is removed from user array.
 
 
-
-
+router.put("/events/:id", function(req,res){   /// updatint the entryfee
+    db.Event.findOneAndUpdate({_id:req.params.id}, {$set:{entryFee: req.body.entryFee}})
+    .then(function(dbEvent){
+        console.log(dbEvent)
+        res.json(dbEvent)
+    })
+})
 
 module.exports = router
 
