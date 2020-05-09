@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getPosts } from '../../actions/postActions'
+
 import { makeStyles } from '@material-ui/styles';
 import { IconButton, Grid, Typography } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -22,10 +26,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ProductList = () => {
+const Posts = ({ getPosts, post: { posts, loading } }) => {
+  useEffect(() => {
+    getPosts();
+  }, [getPosts]);
+
   const classes = useStyles();
 
-  const [products] = useState(mockData);
+  // const [products] = useState(mockData);
 
   return (
     <div className={classes.root}>
@@ -35,15 +43,15 @@ const ProductList = () => {
           container
           spacing={3}
         >
-          {products.map(product => (
+          {posts.map(post => (
             <Grid
               item
-              key={product.id}
+              key={post._id}
               lg={4}
               md={6}
               xs={12}
             >
-              <ProductCard product={product} />
+              <ProductCard post={post} />
             </Grid>
           ))}
         </Grid>
@@ -61,4 +69,13 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+Posts.propTypes = {
+  getPosts: PropTypes.func.isRequired,
+  post: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+  post: state.post
+})
+
+export default connect(mapStateToProps, { getPosts })(Posts);

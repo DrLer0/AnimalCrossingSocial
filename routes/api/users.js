@@ -12,6 +12,17 @@ const validateLoginInput = require("../../validation/login");
 // Load User model
 const User = require("../../models/User");
 
+// @route GET api/users
+// @desc Test route
+// @access Public
+router.get("/", (req, res) => res.send('User route'));
+
+router.get('/current',passport.authenticate('jwt',{ session: false }),(req,res) => {
+    if(req.user){
+        res.status(200).json({id: req.user.id,name: req.user.name,email: req.user.email});
+    }
+});
+
 // @route POST api/users/register
 // @desc Register user
 // @access Public

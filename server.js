@@ -7,6 +7,9 @@ const path = require("path");
 const port = process.env.PORT || 3001; // process.env.port is Heroku's port if you choose to deploy the app there
 
 const users = require("./routes/api/users");
+const profile = require("./routes/api/profile");
+const posts = require("./routes/api/posts");
+// const designs = require("./routes/api/designs");
 const app = express();
 
 // Bodyparser middleware
@@ -19,7 +22,8 @@ app.use(bodyParser.json());
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json({ extended: false }));
+
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -32,7 +36,7 @@ const db = require("./config/keys").mongoURI;
 mongoose
   .connect(
     db,
-    { useNewUrlParser: true }
+    { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false }
   )
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
@@ -43,6 +47,8 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
+app.use("/api/profile", profile);
+app.use("/api/posts", posts);
 
 
 // Define API routes here

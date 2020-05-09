@@ -9,6 +9,7 @@ import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import EventsIcon from '@material-ui/icons/Today';
 import ImageIcon from '@material-ui/icons/Image';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import ColorLensIcon from '@material-ui/icons/ColorLens';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 
@@ -54,9 +55,9 @@ const Sidebar = props => {
       icon: <PeopleIcon />
     },
     {
-      title: 'Items',
-      href: '/products',
-      icon: <ShoppingBasketIcon />
+      title: 'Designs',
+      href: '/designs',
+      icon: <ColorLensIcon />
     },
     {
       title: 'Events',

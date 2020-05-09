@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import Moment from 'react-moment';
+import { connect } from 'react-redux';
+
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -39,22 +43,22 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ProductCard = props => {
-  const { className, product, ...rest } = props;
+const ProductCard = ({ auth, post: { _id, title, description, twitterLink, user, name, likes, date } }) => {
+  // const { className, product, ...rest } = props;
 
   const classes = useStyles();
 
   return (
     <Card
-      {...rest}
-      className={clsx(classes.root, className)}
+      // {...rest}
+      className={clsx(classes.root)}
     >
       <CardContent>
         <div className={classes.imageContainer}>
           <img
             alt="Product"
             className={classes.image}
-            src={product.imageUrl}
+            src="/images/products/product_leaf.jpg"
           />
         </div>
         <Typography
@@ -62,13 +66,19 @@ const ProductCard = props => {
           gutterBottom
           variant="h4"
         >
-          {product.title}
+          <Link to={twitterLink}>{title}</Link>
         </Typography>
         <Typography
           align="center"
           variant="body1"
         >
-          {product.description}
+          {description}
+        </Typography>
+        <Typography
+          align="center"
+          variant="body1"
+        >
+          <Link to={twitterLink}>See design</Link>
         </Typography>
       </CardContent>
       <Divider />
@@ -86,7 +96,7 @@ const ProductCard = props => {
               display="inline"
               variant="body2"
             >
-              Added 2hr ago
+              Added: <Moment format="YYYY/MM/DD">{date}</Moment>
             </Typography>
           </Grid>
           <Grid
@@ -98,7 +108,7 @@ const ProductCard = props => {
               display="inline"
               variant="body2"
             >
-              {product.totalDownloads}
+              {likes}
             </Typography>
           </Grid>
         </Grid>
@@ -109,7 +119,13 @@ const ProductCard = props => {
 
 ProductCard.propTypes = {
   className: PropTypes.string,
-  product: PropTypes.object.isRequired
+  product: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
-export default ProductCard;
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+export default connect(mapStateToProps, {})(ProductCard);

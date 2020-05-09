@@ -9,28 +9,20 @@ const UserSchema = new Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   password: {
     type: String,
     required: true
   },
+  avatar :{
+    type: String
+  },
   date: {
     type: Date,
     default: Date.now
-  },
-  events: [
-    {
-    type: Schema.Types.ObjectId,
-    ref: "Event"
-    }
-    ],
-  designs: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Design"
-        }
-    ]   
+  } 
 });
 
 module.exports = User = mongoose.model("users", UserSchema);
