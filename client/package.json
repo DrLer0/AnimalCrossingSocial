@@ -47,13 +47,10 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.0.1",
     "recompose": "^0.30.0",
-<<<<<<< HEAD
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-=======
     "stream-chat-react": "^0.11.14",
->>>>>>> Added chat to sidebar
     "underscore": "^1.9.1",
     "uuid": "^3.3.2",
     "validate.js": "^0.13.1"
