@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Avatar, Typography } from '@material-ui/core';
+import { Avatar, Typography, Link } from '@material-ui/core';
 
 import { connect } from "react-redux";
 
@@ -36,6 +36,10 @@ const Profile = props => {
     bio: 'Peach Farmer'
   };
 
+  const clickEvent = e => {
+    console.log(props);
+  }
+
   return (
     <div
       {...rest}
@@ -52,7 +56,7 @@ const Profile = props => {
         className={classes.name}
         variant="h4"
       >
-        {user.name.split(" ")[0]}
+        <Link onClick={clickEvent}>test</Link>{user.name.split(" ")[0]}
       </Typography>
       <Typography variant="body2">{userExtra.bio}</Typography>
     </div>
