@@ -14,7 +14,7 @@ const express = require('express'),
 //routes
 
 //post route for saving new Event to db and associating it with a user
-router.post("/event/:userId", function(req,res) {
+router.post("/events/:userId", function(req,res) {
     console.log(req.body);
     db.Event.create(req.body)
     .then(function(dbEvent){

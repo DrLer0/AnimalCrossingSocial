@@ -7,7 +7,7 @@ const path = require("path");
 const port = process.env.PORT || 3001; // process.env.port is Heroku's port if you choose to deploy the app there
 
 const users = require("./routes/api/users");
-const routesEvents = require("./routes/api/events-api-routes");
+const routesEvents = require("./routes/api/event-api-routes");
 const routesDesigns = require("./routes/api/design-api-routes")
 const app = express();
 
@@ -26,14 +26,13 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 // // DB Config
-// const db = require("./models")
-// Connect to MongoDB
+const db = require("./config/keys").mongoURI;// Connect to MongoDB
 //add heroku connection
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/animal-crossing-app";
+//var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/animal-crossing-app";
 
 
-mongoose.connect(MONGODB_URI, { useNewURLParser: true});
+//mongoose.connect(MONGODB_URI, { useNewURLParser: true});
 // Passport middleware
 //app.use(passport.initialize());
 // Passport config
@@ -64,11 +63,11 @@ app.use(routesDesigns)
 
 // Define API routes here
 // An api endpoint that returns a short list of items
-// app.get('/api/getList', (req,res) => {
-//   var list = ["item1", "item2", "item3"];
-//   res.json(list);
-//   console.log('Sent list of items');
-// });
+app.get('/api/getList', (req,res) => {
+  var list = ["item1", "item2", "item3"];
+  res.json(list);
+  console.log('Sent list of items');
+});
 // Send every other request to the React app
 // Define any API routes before this runs
 app.get("*", (req, res) => {
