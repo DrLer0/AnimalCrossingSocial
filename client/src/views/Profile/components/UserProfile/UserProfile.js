@@ -33,51 +33,68 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const UserProfile = props => {
-  const { className, ...rest } = props;
+const UserProfile = ({ 
+  profile: { 
+      handleName, 
+      islandName,
+      localFruit,
+      turnipPrice,
+      hotItem,
+      hotItemPrice,
+      entryFee,
+      user: { name, _id } = {} } }) => {
+  // const { className, ...rest } = props;
+
+  // const { profile, user: { name }, ...rest } = props;
+
+  // console.log(name);
 
   const classes = useStyles();
 
-  const user = {
-    name: 'John Smith',
-    city: 'San Francisco',
-    country: 'USA',
-    timezone: 'GTM-7',
-    avatar: '/images/avatars/avatar_3.png'
-  };
+  // const user = {
+  //   name: 'John Smith',
+  //   city: 'San Francisco',
+  //   country: 'USA',
+  //   timezone: 'GTM-7',
+  //   avatar: '/images/avatars/avatar_3.png'
+  // };
 
   return (
     <Card
-      {...rest}
-      className={clsx(classes.root, className)}
+      // {...rest}
+      // className={clsx(classes.root, className)}
     >
       <CardContent>
         <div className={classes.details}>
           <div>
-            <Typography
+          <Typography
               gutterBottom
               variant="h2"
             >
-              {user.name}
+              {name}
             </Typography>
             <Typography
-              className={classes.locationText}
               color="textSecondary"
               variant="body1"
             >
-              {user.city}, {user.country}
+              Handle name: <b>{!handleName ? "No name" : handleName}</b>
             </Typography>
             <Typography
-              className={classes.dateText}
               color="textSecondary"
               variant="body1"
             >
-              {moment().format('hh:mm A')} ({user.timezone})
+              Island name: <b>{islandName}</b>
+            </Typography>
+            <Typography
+              color="textSecondary"
+              variant="body1"
+            >
+              Local fruit: <b>{localFruit}</b>
             </Typography>
           </div>
           <Avatar
             className={classes.avatar}
-            src={user.avatar}
+            // src={user.avatar}
           />
         </div>
         {/* <div className={classes.progress}>
@@ -103,7 +120,8 @@ const UserProfile = props => {
 };
 
 UserProfile.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  profile: PropTypes.object.isRequired
 };
 
 export default UserProfile;

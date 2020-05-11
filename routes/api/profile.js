@@ -3,20 +3,21 @@ const passport = require('passport');
 // const auth = require();
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
+const checkObjectId = require('../../middleware/checkObjectId');
 
 const router = express.Router();
 
 // Load input validation
 const validateProfileInput  = require('../../validation/profile');
 
-// @route   GET api/profile/me
+// @route   GET api/profile
 // @desc    Get current users profile
 // @access  Private
-router.get('/',passport.authenticate('jwt',{ session: false}),(req,res) =>{
+router.get('/',passport.authenticate('jwt',{ session: false}), (req,res) =>{
     
     const errors = {};
     Profile.findOne({user: req.user.id})
-    .populate('user',['name','avatar'])
+    .populate('user',['name','avatar','date'])
     .then( profile => {
         if(!profile){
             errors.noProfile = 'There is no profile for this user';
@@ -31,6 +32,68 @@ router.get('/',passport.authenticate('jwt',{ session: false}),(req,res) =>{
     });
 });
 
+//@route GET /api/profile/all
+//@desc Get all profiles as an array
+//@access Public
+
+router.get('/all', async (req,res) => {
+
+    Profile.find()
+    .populate('user',['name','avatar','date'])
+    .then(profiles => {
+        if(!profiles){
+            errors.noProfile = 'There are no profiles';
+            return res.status(404).json(errors);
+        }
+        res.json(profiles)
+    }).catch(err =>{
+        return res.status(404).json({profile: err});
+    });
+
+});
+
+//@route    GET /api/profile/user/:user_id
+//@desc     Get user profile by user id
+//@access   Private
+router.get('/user/:user_id',(req,res) =>{
+
+    const errors = {};
+    Profile.findOne({_id: req.params.user_id})
+    .populate('user', ['name', 'avatar'])
+    .then(profile =>{
+        if(!profile){
+            errors.noProfile = 'There is no profile by this id'
+            return res.status(404).json(errors);
+        }
+        return res.status(200).json(profile)
+    })
+    .catch(err => {
+        if (err.kind == 'ObjectId') {
+            return res.status(404).json(err);
+        }
+        return res.status(500).send('Server error');
+    });
+});
+
+router.get(
+    '/user/:user_id',
+    checkObjectId('user_id'),
+    async ({ params: { user_id } }, res) => {
+      try {
+        const profile = await Profile.findOne({
+          user: user_id
+        }).populate('user', ['name', 'avatar']);
+  
+        if (!profile) return res.status(400).json({ msg: 'Profile not found' });
+  
+        return res.json(profile);
+      } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({ msg: 'Server error' });
+      }
+    }
+  );
+
 // @route   POST api/profile/me
 // @desc    Create or update a user profile
 // @access  Private
@@ -44,14 +107,15 @@ router.post('/',passport.authenticate ('jwt',{ session: false}),(req,res) =>{
 
     const profileFields = {}
     profileFields.user = req.user.id;
+    if(req.body.handleName) profileFields.handleName = req.body.handleName;
     if(req.body.islandName) profileFields.islandName = req.body.islandName;
     if(req.body.localFruit) profileFields.localFruit = req.body.localFruit;
-    // if(req.body.company) profileFields.company = req.body.company;
-    // if(req.body.website) profileFields.website = req.body.website;
-    // if(req.body.location) profileFields.location = req.body.location;
-    // if(req.body.status) profileFields.status = req.body.status;
-    // if(req.body.bio) profileFields.bio = req.body.bio;
-    // if(req.body.githubusername) profileFields.githubusername = req.body.githubusername;
+    if(req.body.turnipPrice) profileFields.turnipPrice = req.body.turnipPrice;
+    if(req.body.hotItem) profileFields.hotItem = req.body.hotItem;
+    if(req.body.hotItemPrice) profileFields.hotItemPrice = req.body.hotItemPrice;
+    if(req.body.celeste) profileFields.celeste = req.body.celeste;
+    if(req.body.sahara) profileFields.sahara = req.body.sahara;
+    if(req.body.entryFee) profileFields.entryFee = req.body.entryFee;
     // Add Skills
     // if(typeof req.body.skills !== undefined)
     //     profileFields.skills = req.body.skills.split(',');
@@ -63,7 +127,6 @@ router.post('/',passport.authenticate ('jwt',{ session: false}),(req,res) =>{
     // if(req.body.instagram) profileFields.social.instagram = req.body.instagram;
     // if(req.body.facebook) profileFields.social.facebook = req.body.facebook;
     // if(req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
-
   
     Profile.findOne({user: req.user.id}).then(profile =>{
         if(profile){
@@ -91,48 +154,6 @@ router.post('/',passport.authenticate ('jwt',{ session: false}),(req,res) =>{
         }
     })
 
-});
-
-// @route   GET api/profile
-// @desc    Get all profiles
-// @access  Public
-router.get('/all',(req,res) => {
-
-    Profile.find()
-    .populate('user',['name','avatar'])
-    .then(profiles => {
-        if(!profiles){
-            errors.noProfile = 'There are no profiles';
-            return res.status(404).json(errors);
-        }
-        res.json(profiles)
-    }).catch(err =>{
-        return res.status(404).json({profile: err});
-    });
-
-});
-
-//@route    GET /api/profile/user/:user_id
-//@desc     Get user profile by user id
-//@access   Public
-router.get('/user/:user_id',(req,res) =>{
-
-    const errors = {};
-    Profile.findOne({_id: req.params.user_id})
-    .populate('user', ['name', 'avatar'])
-    .then(profile =>{
-        if(!profile){
-            errors.noProfile = 'There is no profile by this handle'
-            return res.status(404).json(errors);
-        }
-        return res.status(200).json(profile)
-    })
-    .catch(err => {
-        if (err.kind == 'ObjectId') {
-            return res.status(404).json(err);
-        }
-        return res.status(500).send('Server error');
-    });
 });
 
 module.exports = router;

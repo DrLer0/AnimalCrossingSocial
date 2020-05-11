@@ -1,10 +1,10 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/styles';
-import { Grid } from '@material-ui/core';
-
+import React, { useEffect } from 'react';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { getAllProfiles, getCurrentProfile } from "../../actions/profileActions"
 import { logoutUser } from "../../actions/authActions";
+import { makeStyles } from '@material-ui/styles';
+import { Grid } from '@material-ui/core';
 
 import {
   Profile,
@@ -19,7 +19,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Dashboard = () => {
+const Dashboard = ({getAllProfiles, profile: { profiles, loading }, getCurrentProfile, profile: {profile}, auth }) => {
+  useEffect(() => {
+    getAllProfiles();
+  }, [getAllProfiles]);
+  
+  console.log(profiles)
+  console.log(profile)
+
   const classes = useStyles();
 
   return (
@@ -63,7 +70,7 @@ const Dashboard = () => {
           xl={3}
           xs={12}
         >
-          <Profile />
+          <Profile profile={profile} auth={auth} />
         </Grid>
         <Grid
           item
@@ -90,7 +97,7 @@ const Dashboard = () => {
           xl={10}
           xs={12}
         >
-          <LatestMembers />
+          <LatestMembers profiles={profiles} />
         </Grid>
         <Grid
           item
@@ -108,14 +115,18 @@ const Dashboard = () => {
 
 Dashboard.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  getAllProfiles: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func,
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(
   mapStateToProps,
-  { logoutUser }
+  { logoutUser, getAllProfiles, getCurrentProfile }
 )(Dashboard);

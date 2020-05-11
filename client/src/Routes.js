@@ -1,9 +1,10 @@
 import React from 'react';
-import { Switch, Redirect, Route } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { getCurrentProfile } from "./actions/profileActions"
 
 import store from "./store";
 
@@ -35,6 +36,7 @@ if (localStorage.jwtToken) {
   const decoded = jwt_decode(token);
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
+  store.dispatch(getCurrentProfile());
 // Check for expired token
   const currentTime = Date.now() / 1000; // to get in milliseconds
   if (decoded.exp < currentTime) {
@@ -87,7 +89,7 @@ const Routes = () => {
         component={ProfileView}
         exact
         layout={MainLayout}
-        path="/profile"
+        path="/profile/:id"
       />
       <RouteWithLayout
         component={EventsView}

@@ -8,6 +8,7 @@ import { Sidebar, Topbar, Footer } from './components';
 
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
+import { clearCurrentProfile } from '../../actions/profileActions'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,6 +50,7 @@ const Main = props => {
   const onLogoutClick = e => {
     e.preventDefault();
     props.logoutUser();
+    props.clearCurrentProfile();
     console.log('logging out')
   };
 
@@ -76,6 +78,7 @@ const Main = props => {
 Main.propTypes = {
   children: PropTypes.node,
   logoutUser: PropTypes.func.isRequired,
+  clearCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 
@@ -85,7 +88,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { logoutUser }
+  { logoutUser, clearCurrentProfile }
 )(Main);
 
 // export default Main;

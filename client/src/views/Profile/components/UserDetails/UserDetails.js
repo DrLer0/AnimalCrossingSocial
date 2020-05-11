@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import clsx from 'clsx';
+import WhatsHotIcon from '@material-ui/icons/Whatshot';
+import MoneyIcon from '@material-ui/icons/Money';
+import EmojiNatureIcon from '@material-ui/icons/EmojiNature';
+import PetsIcon from '@material-ui/icons/Pets';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
@@ -10,15 +15,27 @@ import {
   Divider,
   Grid,
   Button,
-  TextField
+  TextField,
+  Typography
 } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const UserDetails = props => {
-  const { className, ...rest } = props;
+const UserDetails = ({ 
+    profile: { 
+        handleName, 
+        islandName,
+        localFruit,
+        turnipPrice,
+        hotItem,
+        hotItemPrice,
+        entryFee,
+        celeste,
+        sahara,
+        user: { name, _id } = {} } }) => {
+  // const { className, ...rest } = props;
 
   const classes = useStyles();
 
@@ -54,12 +71,9 @@ const UserDetails = props => {
   ];
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card>
         <CardHeader
-          title="Profile"
+          title="What's happening on this island!" 
         />
         <Divider />
         <CardContent>
@@ -69,54 +83,61 @@ const UserDetails = props => {
           >
             <Grid
               item
-              md={6}
+              md={12}
               xs={12}
             >
-              {/* <TextField
-                fullWidth
-                helperText="Please specify the first name"
-                label="First name"
-                margin="dense"
-                name="firstName"
-                onChange={handleChange}
-                required
-                value={values.firstName}
-                variant="outlined"
-              /> */}
-              <p>{values.firstName}</p>
+              <Typography variant="h3" gutterBottom>
+              <MoneyIcon /> Turnip prices:
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                <b>{turnipPrice}</b> bells (Prices change at noon)
+              </Typography>
             </Grid>
             <Grid
               item
-              md={6}
+              md={12}
               xs={12}
             >
-              {/* <TextField
-                fullWidth
-                label="Last name"
-                margin="dense"
-                name="lastName"
-                onChange={handleChange}
-                required
-                value={values.lastName}
-                variant="outlined"
-              /> */}
-              <p>{values.lastName}</p>
+              <Typography variant="h3" gutterBottom>
+                <WhatsHotIcon /> Hot item:
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                <b>{hotItem}: {hotItemPrice}</b> bells (Prices change at 5am local time)
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              md={12}
+              xs={12}
+            >
+              <Typography variant="h3" gutterBottom>
+                <EmojiNatureIcon /> Celeste is visiting
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                {celeste === true ? "Yes, there will be a visit" : "No, nothing scheduled"}  
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              md={12}
+              xs={12}
+            >
+              <Typography variant="h3" gutterBottom>
+                <PetsIcon /> Sahara is visiting
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                {sahara === true ? "Yes, there will be a visit" : "No, nothing scheduled"}
+              </Typography>
             </Grid>
           </Grid>
-        </CardContent>
-        <Divider />
-        <CardHeader
-          title="Items for Sale"
-        />
-        <Divider />
-        <CardContent>
         </CardContent>
     </Card>
   );
 };
 
 UserDetails.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  profile: PropTypes.object.isRequired
 };
 
 export default UserDetails;

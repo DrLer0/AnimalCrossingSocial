@@ -38,15 +38,7 @@ const LatestTurnipPrices = props => {
       className={clsx(classes.root, className)}
     >
       <CardHeader
-        action={
-          <Button
-            size="small"
-            variant="text"
-          >
-            Last 7 days <ArrowDropDownIcon />
-          </Button>
-        }
-        title="Latest turnip prices"
+        title="Top turnip prices"
       />
       <Divider />
       <CardContent>
@@ -57,16 +49,6 @@ const LatestTurnipPrices = props => {
           />
         </div>
       </CardContent>
-      <Divider />
-      <CardActions className={classes.actions}>
-        <Button
-          color="primary"
-          size="small"
-          variant="text"
-        >
-          Overview <ArrowRightIcon />
-        </Button>
-      </CardActions>
     </Card>
   );
 };

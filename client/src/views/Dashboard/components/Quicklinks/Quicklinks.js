@@ -78,7 +78,24 @@ const Quicklinks = props => {
             <Typography variant="h5" className={classes.h4}>
               <Link
                 component="a"
-                href="/products"
+                href="/"
+                target="_blank"
+              >
+                Turnip calculator
+              </Link>
+            </Typography>
+            <Typography variant="h5" className={classes.h4}>
+              <Link
+                component="a"
+                href="/designs"
+              >
+                Custom designs
+              </Link>
+            </Typography>
+            <Typography variant="h5" className={classes.h4}>
+              <Link
+                component="a"
+                href="/account"
               >
                 List item for sale
               </Link>
@@ -86,19 +103,19 @@ const Quicklinks = props => {
             <Typography variant="h5" className={classes.h4}>
               <Link
                 component="a"
-                href="/events"
+                href="/account"
               >
                 Add an event
               </Link>
             </Typography>
-            <Typography variant="h5" className={classes.h4}>
+            {/* <Typography variant="h5" className={classes.h4}>
               <Link
                 component="a"
                 href="/users"
               >
                 View friends list
               </Link>
-            </Typography>
+            </Typography> */}
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>

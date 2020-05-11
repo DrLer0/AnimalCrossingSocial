@@ -72,7 +72,22 @@ const useStyles = makeStyles(theme => ({
 
 const ProductsToolbar = ({ addPost }) => {
   // const { className, ...rest } = props;
-  const [title, setText] = useState("");
+  // const [title, setText] = useState("");
+
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    twitterLink: '',
+  });
+
+  const {
+    title,
+    description,
+    twitterLink
+  } = formData;
+
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const classes = useStyles();
 
@@ -92,8 +107,8 @@ const ProductsToolbar = ({ addPost }) => {
     <div style={modalStyle} className={classes.paper}>
       <form className={classes.form} onSubmit={e => {
         e.preventDefault();
-        addPost({ title });
-        setText("");
+        addPost(formData);
+        // setText("");
         handleClose();
       }}>
       <TextField
@@ -105,9 +120,29 @@ const ProductsToolbar = ({ addPost }) => {
         // }
         label="Design Title"
         name="title"
-        onChange={e => setText(e.target.value)}
+        onChange={onChange}
         type="text"
         value={title}
+        variant="outlined"
+      />
+      <TextField
+        className={classes.textField}
+        fullWidth
+        label="Description"
+        name="description"
+        onChange={onChange}
+        type="text"
+        value={description}
+        variant="outlined"
+      />
+      <TextField
+        className={classes.textField}
+        fullWidth
+        label="Twitter link to code"
+        name="twitterLink"
+        onChange={onChange}
+        type="text"
+        value={twitterLink}
         variant="outlined"
       />
         {/* <input></input>

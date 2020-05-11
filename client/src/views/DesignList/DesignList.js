@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getPosts } from '../../actions/postActions'
@@ -9,7 +9,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 import { ProductsToolbar, ProductCard } from './components';
-import mockData from './data';
+// import mockData from './data';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,7 +56,7 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
           ))}
         </Grid>
       </div>
-      <div className={classes.pagination}>
+      {/* <div className={classes.pagination}>
         <Typography variant="caption">1-6 of 20</Typography>
         <IconButton>
           <ChevronLeftIcon />
@@ -64,14 +64,14 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
         <IconButton>
           <ChevronRightIcon />
         </IconButton>
-      </div>
+      </div> */}
     </div>
   );
 };
 
 Posts.propTypes = {
   getPosts: PropTypes.func.isRequired,
-  post: PropTypes.func.isRequired
+  post: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({

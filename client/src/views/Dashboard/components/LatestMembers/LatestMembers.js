@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -51,11 +52,11 @@ const statusColors = {
 };
 
 const LatestMembers = props => {
-  const { className, ...rest } = props;
+  const { className, profiles, ...rest } = props;
 
   const classes = useStyles();
 
-  const [orders] = useState(mockData);
+  // const [orders] = useState(mockData);
 
   return (
     <Card
@@ -81,44 +82,23 @@ const LatestMembers = props => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Order Ref</TableCell>
-                  <TableCell>Customer</TableCell>
-                  <TableCell sortDirection="desc">
-                    <Tooltip
-                      enterDelay={300}
-                      title="Sort"
-                    >
-                      <TableSortLabel
-                        active
-                        direction="desc"
-                      >
-                        Date
-                      </TableSortLabel>
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell>Status</TableCell>
+                  <TableCell>Handle Name</TableCell>
+                  <TableCell>Island Name</TableCell>
+                  <TableCell>Turnip Price</TableCell>
+                  <TableCell>Date Joined</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {orders.map(order => (
+                {profiles.map(profile => (
                   <TableRow
                     hover
-                    key={order.id}
+                    key={profile._id}
                   >
-                    <TableCell>{order.ref}</TableCell>
-                    <TableCell>{order.customer.name}</TableCell>
+                    <TableCell><Link to={`/profile/${profile._id}`}>{profile.handleName ? profile.handleName : "No name"}</Link></TableCell>
+                    <TableCell>{profile.islandName}</TableCell>
+                    <TableCell>{profile.turnipPrice}</TableCell>
                     <TableCell>
-                      {moment(order.createdAt).format('DD/MM/YYYY')}
-                    </TableCell>
-                    <TableCell>
-                      <div className={classes.statusContainer}>
-                        <StatusBullet
-                          className={classes.status}
-                          color={statusColors[order.status]}
-                          size="sm"
-                        />
-                        {order.status}
-                      </div>
+                      {moment(profile.user.date).format('DD/MM/YYYY')}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -129,21 +109,23 @@ const LatestMembers = props => {
       </CardContent>
       <Divider />
       <CardActions className={classes.actions}>
-        <Button
-          color="primary"
-          size="small"
-          variant="text"
-          href="/users"
-        >
-          View all <ArrowRightIcon />
-        </Button>
+        <Link to="/users">
+          <Button
+            color="primary"
+            size="small"
+            variant="text"
+          >
+            View all <ArrowRightIcon />
+          </Button>
+        </Link>
       </CardActions>
     </Card>
   );
 };
 
 LatestMembers.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  profiles: PropTypes.object.isRequired,
 };
 
 export default LatestMembers;

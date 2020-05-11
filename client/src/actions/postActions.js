@@ -64,27 +64,27 @@ export const getPosts = () => dispatch => {
 
 //Add Like 
 
-export const addLike = (postId) => dispatch => {
-    axios
-        .post(`/api/posts/like/${postId}`)
-        .then(res => dispatch(getPosts()))
-        .catch(err => dispatch({
-            type: GET_ERRORS,
-            payload: err.response.data
-        }))
-}
+// export const addLike = (postId) => dispatch => {
+//     axios
+//         .post(`/api/posts/like/${postId}`)
+//         .then(res => dispatch(getPosts()))
+//         .catch(err => dispatch({
+//             type: GET_ERRORS,
+//             payload: err.response.data
+//         }))
+// }
 
 //Add UnLike 
 
-export const removeLike = (postId) => dispatch => {
-    axios
-        .post(`/api/posts/unlike/${postId}`)
-        .then(res => dispatch(getPosts()))
-        .catch(err => dispatch({
-            type: GET_ERRORS,
-            payload: err.response.data
-        }))
-}
+// export const removeLike = (postId) => dispatch => {
+//     axios
+//         .post(`/api/posts/unlike/${postId}`)
+//         .then(res => dispatch(getPosts()))
+//         .catch(err => dispatch({
+//             type: GET_ERRORS,
+//             payload: err.response.data
+//         }))
+// }
 
 //Add Comment
 // export const addComment = (postId,commentData) => dispatch => {
