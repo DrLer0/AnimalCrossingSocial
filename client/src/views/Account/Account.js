@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getCurrentProfile } from '../../actions/profileActions';
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 
@@ -10,7 +13,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Account = () => {
+const Account = ({ getCurrentProfile, profile: { profile } }) => {
+  useEffect(() => {
+    getCurrentProfile();
+  }, [getCurrentProfile]);
+
   const classes = useStyles();
 
   return (
@@ -26,7 +33,7 @@ const Account = () => {
           xl={4}
           xs={12}
         >
-          <AccountProfile />
+          <AccountProfile profile={profile} />
         </Grid>
         <Grid
           item
@@ -35,11 +42,20 @@ const Account = () => {
           xl={8}
           xs={12}
         >
-          <AccountDetails />
+          <AccountDetails profile={profile} />
         </Grid>
       </Grid>
     </div>
   );
 };
 
-export default Account;
+Account.propTypes = {
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  profile: state.profile
+})
+
+export default connect(mapStateToProps, {getCurrentProfile})(Account);

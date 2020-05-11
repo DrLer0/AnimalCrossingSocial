@@ -1,5 +1,6 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
+import { Link } from 'react-router-dom'
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/styles';
@@ -7,18 +8,21 @@ import {
   Card,
   CardHeader,
   CardContent,
+  CardMedia,
   IconButton,
   Divider,
   Typography
 } from '@material-ui/core';
-import LaptopMacIcon from '@material-ui/icons/LaptopMac';
-import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import TabletMacIcon from '@material-ui/icons/TabletMac';
+
+import CreateIcon from '@material-ui/icons/Create';
 
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100%'
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
   },
   chartContainer: {
     position: 'relative',
@@ -39,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Profile = props => {
-  const { className, ...rest } = props;
+  const { className, profile, auth, ...rest } = props;
 
   const classes = useStyles();
   const theme = useTheme();
@@ -83,73 +87,44 @@ const Profile = props => {
     }
   };
 
-  const devices = [
-    {
-      title: 'Desktop',
-      value: '63',
-      icon: <LaptopMacIcon />,
-      color: theme.palette.primary.main
-    },
-    {
-      title: 'Tablet',
-      value: '15',
-      icon: <TabletMacIcon />,
-      color: theme.palette.error.main
-    },
-    {
-      title: 'Mobile',
-      value: '23',
-      icon: <PhoneIphoneIcon />,
-      color: theme.palette.warning.main
-    }
-  ];
-
   return (
     <Card
       {...rest}
       className={clsx(classes.root, className)}
     >
       <CardHeader
-        // action={
-        //   <IconButton size="small">
-        //     <RefreshIcon />
-        //   </IconButton>
-        // }
-        title="Your profile"
+        action={
+          <Link to="/account">
+            <IconButton size="small">
+              <CreateIcon />
+            </IconButton>
+          </Link>
+        }
+        title="Profile at a glance"
       />
-      <Divider />
+
+      <CardMedia
+        className={classes.media}
+        image="/images/dashboard-splash.png"
+        title="Welcome!"
+      />
       <CardContent>
-        <div>Content here</div>
-        {/* <div className={classes.chartContainer}>
-          <Doughnut
-            data={data}
-            options={options}
-          />
-        </div>
-        <div className={classes.stats}>
-          {devices.map(device => (
-            <div
-              className={classes.device}
-              key={device.title}
-            >
-              <span className={classes.deviceIcon}>{device.icon}</span>
-              <Typography variant="body1">{device.title}</Typography>
-              <Typography
-                style={{ color: device.color }}
-                variant="h2"
-              >
-                {device.value}%
-              </Typography>
-            </div>
-          ))}
-        </div> */}
+        <Typography variant="h4" gutterBottom>
+          Welcome back, {auth.user.name}!
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          {/* {profile.turnipPrice > 0 ? (<div>Your current turnip price: {profile.turnipPrice} bells</div>) : null} */}
+          {profile == null || profile == false || profile == {} ? "Get started by adding your profile" : (<div>Your current turnip price: {profile.turnipPrice} bells</div>)}
+        </Typography>
       </CardContent>
     </Card>
   );
 };
 
 Profile.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  profile: PropTypes.object.isRequired,
+  auth: PropTypes.object,
 };
 
 export default Profile;

@@ -7,30 +7,36 @@ const ProfileSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'users'
     },
+    handleName: {
+        type: String
+    },
     islandName: {
         type: String
     },
     localFruit: {
         type: String
     },
-    events: [
-        {
-            turnipPrice:{
-                type:String
-            },
-            hotItem:{
-                type: String,
-            },
-            celeste:{
-                type: String
-            },
-            sahara:{
-                type: String
-            }
-        }
-    ],
-    designs: {
+    turnipPrice: {
+        type: Number
+    },
+    hotItem: {
         type: String
+    },
+    hotItemPrice: {
+        type: Number
+    },
+    entryFee: {
+        type: Number
+    },
+    celeste: {
+        type: Boolean
+    },
+    sahara: {
+        type: Boolean
+    },
+    designs: {
+        type: Schema.Types.ObjectId,
+        ref: 'post'
     }
 });
 

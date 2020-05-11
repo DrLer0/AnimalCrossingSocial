@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 
@@ -10,12 +10,13 @@ import {
   Card,
   CardContent,
   CardActions,
+  Link,
   Typography,
   Grid,
   Divider
 } from '@material-ui/core';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import PersonIcon from '@material-ui/icons/Person';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -66,7 +67,7 @@ const ProductCard = ({ auth, post: { _id, title, description, twitterLink, user,
           gutterBottom
           variant="h4"
         >
-          <Link to={twitterLink}>{title}</Link>
+          {title}
         </Typography>
         <Typography
           align="center"
@@ -78,7 +79,7 @@ const ProductCard = ({ auth, post: { _id, title, description, twitterLink, user,
           align="center"
           variant="body1"
         >
-          <Link to={twitterLink}>See design</Link>
+          <Link href={twitterLink} target="_blank" rel="noopener">{twitterLink}</Link>
         </Typography>
       </CardContent>
       <Divider />
@@ -103,12 +104,12 @@ const ProductCard = ({ auth, post: { _id, title, description, twitterLink, user,
             className={classes.statsItem}
             item
           >
-            <AttachMoneyIcon className={classes.statsIcon} />
+            <PersonIcon className={classes.statsIcon} />
             <Typography
               display="inline"
               variant="body2"
             >
-              {likes}
+              {name}
             </Typography>
           </Grid>
         </Grid>
@@ -119,7 +120,7 @@ const ProductCard = ({ auth, post: { _id, title, description, twitterLink, user,
 
 ProductCard.propTypes = {
   className: PropTypes.string,
-  product: PropTypes.object.isRequired,
+  // product: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 };
@@ -128,4 +129,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps, {})(ProductCard);
+export default connect(mapStateToProps)(ProductCard);

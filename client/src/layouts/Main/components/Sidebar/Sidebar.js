@@ -1,13 +1,15 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getCurrentProfile } from '../../../../actions/profileActions';
 import { makeStyles } from '@material-ui/styles';
 import { Divider, Drawer } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
-import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
-import EventsIcon from '@material-ui/icons/Today';
-import ImageIcon from '@material-ui/icons/Image';
+// import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+// import EventsIcon from '@material-ui/icons/Today';
+// import ImageIcon from '@material-ui/icons/Image';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -40,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Sidebar = props => {
-  const { open, variant, onClose, className, ...rest } = props;
+  const { profile: { profile }, open, variant, onClose, className, ...rest } = props;
 
   const classes = useStyles();
 
@@ -56,15 +58,15 @@ const Sidebar = props => {
       icon: <PeopleIcon />
     },
     {
-      title: 'Designs',
+      title: 'Custom Designs',
       href: '/designs',
       icon: <ColorLensIcon />
     },
-    {
-      title: 'Events',
-      href: '/events',
-      icon: <EventsIcon />
-    },
+    // {
+    //   title: 'Events',
+    //   href: '/events',
+    //   icon: <EventsIcon />
+    // },
     // {
     //   title: 'Authentication',
     //   href: '/sign-in',
@@ -104,7 +106,7 @@ const Sidebar = props => {
         {...rest}
         className={clsx(classes.root, className)}
       >
-        <Profile />
+        <Profile profile={profile} />
         <Divider className={classes.divider} />
         <SidebarNav
           className={classes.nav}
@@ -119,7 +121,13 @@ Sidebar.propTypes = {
   className: PropTypes.string,
   onClose: PropTypes.func,
   open: PropTypes.bool.isRequired,
-  variant: PropTypes.string.isRequired
+  variant: PropTypes.string.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
-export default Sidebar;
+const mapStateToProps = state => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { getCurrentProfile })(Sidebar);
