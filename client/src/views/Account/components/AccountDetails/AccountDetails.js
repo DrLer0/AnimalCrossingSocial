@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
+import React, { useState, useEffect } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createProfile, getCurrentProfile } from '../../../../actions/profileActions';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
+import isEmpty from '../../../../validations/is-empty'
 import {
   Card,
   CardHeader,
@@ -10,57 +14,76 @@ import {
   Divider,
   Grid,
   Button,
-  TextField
+  TextField,
+  Typography
 } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const AccountDetails = props => {
-  const { className, ...rest } = props;
+const AccountDetails = ({ profile: {profile}, createProfile, getCurrentProfile, history }) => {
+  // const { className, ...rest } = props;
+
+  // console.log(profile._id)
 
   const classes = useStyles();
 
-  const [values, setValues] = useState({
-    firstName: 'Jenny',
-    lastName: 'Doe',
-    email: 'jd@gmail.com',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
+  const [formData, setFormData] = useState({
+    handleName: '',
+    islandName: '',
+    localFruit: '',
+    turnipPrice: '',
+    hotItem: '',
+    hotItemPrice: '',
+    celeste: '',
+    sahara: '',
+    entryFee: ''
   });
 
-  const handleChange = event => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value
-    });
-  };
+  const {
+    handleName,
+    islandName,
+    localFruit,
+    turnipPrice,
+    hotItem,
+    hotItemPrice,
+    celeste,
+    sahara,
+    entryFee
+  } = formData;
 
-  const states = [
+  
+  const userId = profile._id;
+  
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+  
+  const onSubmit = e => {
+    e.preventDefault();
+    createProfile(formData, history, userId);
+    getCurrentProfile();
+  }
+
+  const yesno = [
     {
-      value: 'alabama',
-      label: 'Alabama'
+      value: true,
+      label: 'Yes'
     },
     {
-      value: 'new-york',
-      label: 'New York'
-    },
-    {
-      value: 'san-francisco',
-      label: 'San Francisco'
+      value: false,
+      label: 'No'
     }
   ];
 
   return (
     <Card
-      {...rest}
-      className={clsx(classes.root, className)}
+      // {...rest}
+      // className={clsx(classes.root, className)}
     >
       <form
         autoComplete="off"
         noValidate
+        onSubmit={e => onSubmit(e)}
       >
         <CardHeader
           subheader="The information can be edited"
@@ -79,13 +102,12 @@ const AccountDetails = props => {
             >
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
-                label="First name"
+                helperText="Your in-game handle name"
+                label="Handle name"
                 margin="dense"
-                name="firstName"
-                onChange={handleChange}
-                required
-                value={values.firstName}
+                name="handleName"
+                onChange={e => onChange(e)}
+                value={handleName}
                 variant="outlined"
               />
             </Grid>
@@ -96,12 +118,12 @@ const AccountDetails = props => {
             >
               <TextField
                 fullWidth
-                label="Last name"
+                helperText="Your island name"
+                label="Island name"
                 margin="dense"
-                name="lastName"
-                onChange={handleChange}
-                required
-                value={values.lastName}
+                name="islandName"
+                onChange={e => onChange(e)}
+                value={islandName}
                 variant="outlined"
               />
             </Grid>
@@ -112,12 +134,53 @@ const AccountDetails = props => {
             >
               <TextField
                 fullWidth
-                label="Email Address"
+                helperText="Your current local island fruit"
+                label="Local fruit"
                 margin="dense"
-                name="email"
-                onChange={handleChange}
-                required
-                value={values.email}
+                name="localFruit"
+                onChange={e => onChange(e)}
+                value={localFruit}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={12}
+              xs={12}
+            >
+              <Typography gutterBottom variant="h4" display="block">
+                Happenings on your island
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              md={12}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                helperText="Set your current turnip prices (in Bells Currency)"
+                label="Current turnip price"
+                margin="dense"
+                name="turnipPrice"
+                onChange={e => onChange(e)}
+                value={turnipPrice}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={12}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                helperText="Set your island entry fee (in Bells Currency)"
+                label="Island entry fee"
+                margin="dense"
+                name="entryFee"
+                onChange={e => onChange(e)}
+                value={entryFee}
                 variant="outlined"
               />
             </Grid>
@@ -128,12 +191,12 @@ const AccountDetails = props => {
             >
               <TextField
                 fullWidth
-                label="Phone Number"
+                helperText="Top item you are looking to sell"
+                label="Hot item"
                 margin="dense"
-                name="phone"
-                onChange={handleChange}
-                type="number"
-                value={values.phone}
+                name="hotItem"
+                onChange={e => onChange(e)}
+                value={hotItem}
                 variant="outlined"
               />
             </Grid>
@@ -144,18 +207,33 @@ const AccountDetails = props => {
             >
               <TextField
                 fullWidth
-                label="Select State"
+                helperText="Set your hot item price (in Bells Currency)"
+                label="Hot item price"
                 margin="dense"
-                name="state"
-                onChange={handleChange}
-                required
+                name="hotItemPrice"
+                onChange={e => onChange(e)}
+                value={hotItemPrice}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                helperText="Will Celeste be visiting your island?"
+                label="Celeste event"
+                margin="dense"
+                name="celeste"
+                onChange={e => onChange(e)}
+                value={celeste}
                 select
-                // eslint-disable-next-line react/jsx-sort-props
                 SelectProps={{ native: true }}
-                value={values.state}
                 variant="outlined"
               >
-                {states.map(option => (
+                {yesno.map(option => (
                   <option
                     key={option.value}
                     value={option.value}
@@ -172,14 +250,25 @@ const AccountDetails = props => {
             >
               <TextField
                 fullWidth
-                label="Country"
+                helperText="Will Sahara be visiting your island?"
+                label="Sahara event"
                 margin="dense"
-                name="country"
-                onChange={handleChange}
-                required
-                value={values.country}
+                name="sahara"
+                onChange={e => onChange(e)}
+                value={sahara}
+                select
+                SelectProps={{ native: true }}
                 variant="outlined"
-              />
+              >
+                {yesno.map(option => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
             </Grid>
           </Grid>
         </CardContent>
@@ -188,6 +277,7 @@ const AccountDetails = props => {
           <Button
             color="primary"
             variant="contained"
+            type="submit"
           >
             Save details
           </Button>
@@ -198,7 +288,14 @@ const AccountDetails = props => {
 };
 
 AccountDetails.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
-export default AccountDetails;
+const mapsStateToProps = (state) => ({ 
+  profile: state.profile
+})
+
+export default connect(mapsStateToProps, { createProfile, getCurrentProfile })(withRouter(AccountDetails));

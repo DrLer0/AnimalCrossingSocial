@@ -15,7 +15,7 @@ import Routes from './Routes';
 import { Provider } from "react-redux";
 import store from "./store";
 
-import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
+import { Minimal as MinimalLayout } from './layouts';
 import {
   SignIn as SignInView,
   SignUp as SignUpView
