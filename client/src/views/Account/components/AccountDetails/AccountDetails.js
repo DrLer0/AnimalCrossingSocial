@@ -52,14 +52,12 @@ const AccountDetails = ({ profile: {profile}, createProfile, getCurrentProfile, 
     sahara,
     entryFee
   } = formData;
-
-  
-  const userId = profile._id;
   
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
   
   const onSubmit = e => {
     e.preventDefault();
+    const userId = profile._id;
     createProfile(formData, history, userId);
     getCurrentProfile();
   }
