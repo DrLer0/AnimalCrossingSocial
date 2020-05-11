@@ -53,13 +53,15 @@ const AccountDetails = ({ profile: {profile}, createProfile, getCurrentProfile, 
     entryFee
   } = formData;
 
+  
   const userId = profile._id;
-
+  
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-
+  
   const onSubmit = e => {
     e.preventDefault();
     createProfile(formData, history, userId);
+    getCurrentProfile();
   }
 
   const yesno = [

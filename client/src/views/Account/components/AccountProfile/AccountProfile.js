@@ -97,17 +97,16 @@ const AccountProfile = props => {
       </CardContent>
       <Divider />
       <CardActions>
-        <Link to={`/profile/${profile._id}`}>
+        {profile && (
+          <Link to={`/profile/${profile._id}`}>
           <Button
             className={classes.uploadButton}
             color="primary"
             variant="text"
-            // href="/profile"
           >
             View Profile
           </Button>
-        </Link>
-        {/* <Button variant="text">Remove picture</Button> */}
+        </Link>)}
       </CardActions>
     </Card>
   );
