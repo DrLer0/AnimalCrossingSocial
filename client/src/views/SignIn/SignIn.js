@@ -1,115 +1,272 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, { useState } from 'react';
+import { Link, Redirect, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { loginUser } from "../../actions/authActions";
 import classnames from "classnames";
+import validate from 'validate.js';
+import { makeStyles } from '@material-ui/styles';
+import {
+  Grid,
+  Button,
+  TextField,
+  Typography
+} from '@material-ui/core';
 
-class Login extends Component {
-  constructor() {
-    super();
-    this.state = {
-      email: "",
-      password: "",
-      errors: {}
-    };
-  }
-componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/dashboard"); // push user to dashboard when they login
+const useStyles = makeStyles(theme => ({
+  root: {
+    backgroundColor: theme.palette.background.default,
+    height: '100%'
+  },
+  grid: {
+    height: '100%'
+  },
+  quoteContainer: {
+    [theme.breakpoints.down('md')]: {
+      display: 'none'
     }
-if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors
-      });
+  },
+  quote: {
+    backgroundColor: theme.palette.neutral,
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundImage: 'url(/images/auth.png)',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center'
+  },
+  quoteInner: {
+    textAlign: 'center',
+    flexBasis: '600px'
+  },
+  quoteText: {
+    color: theme.palette.white,
+    fontWeight: 300
+  },
+  name: {
+    marginTop: theme.spacing(3),
+    color: theme.palette.white
+  },
+  bio: {
+    color: theme.palette.white
+  },
+  contentContainer: {},
+  content: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  contentHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingTop: theme.spacing(5),
+    paddingBototm: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
+  },
+  logoImage: {
+    marginLeft: theme.spacing(4)
+  },
+  contentBody: {
+    flexGrow: 1,
+    display: 'flex',
+    alignItems: 'center',
+    [theme.breakpoints.down('md')]: {
+      justifyContent: 'center'
     }
+  },
+  form: {
+    paddingLeft: 100,
+    paddingRight: 100,
+    paddingBottom: 125,
+    flexBasis: 700,
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2)
+    }
+  },
+  title: {
+    marginTop: theme.spacing(3)
+  },
+  socialButtons: {
+    marginTop: theme.spacing(3)
+  },
+  socialIcon: {
+    marginRight: theme.spacing(1)
+  },
+  sugestion: {
+    marginTop: theme.spacing(2)
+  },
+  textField: {
+    marginTop: theme.spacing(2)
+  },
+  signInButton: {
+    margin: theme.spacing(2, 0)
   }
-onChange = e => {
-    this.setState({ [e.target.id]: e.target.value });
-  };
-onSubmit = e => {
-    e.preventDefault();
-const userData = {
-      email: this.state.email,
-      password: this.state.password
+}));
+
+const SignIn = ({loginUser, auth, errors, history}) => {
+
+  const classes = useStyles();
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    errors: {}
+  });
+
+  const { email, password } = formData;
+
+  if (auth.isAuthenticated) {
+    history.push("/dashboard"); 
+  }
+
+  const componentWillReceiveProps = () => {
+    // console.log(nextProps)
+      if (auth.isAuthenticated) {
+        history.push("/dashboard"); // push user to dashboard when they login
+        // return <Redirect to="/dashboard" />;
+      }
+      if (errors) {
+        setFormData({
+          errors: errors
+        });
+      }
+    }
+
+    const onChange = e => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-this.props.loginUser(userData); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
-  };
-render() {
-    const { errors } = this.state;
-return (
-      <div className="container">
-        <div style={{ marginTop: "4rem" }} className="row">
-          <div className="col s8 offset-s2">
-            <Link to="/" className="btn-flat waves-effect">
-              <i className="material-icons left">keyboard_backspace</i> Back to
-              home
-            </Link>
-            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-              <h4>
-                <b>Login</b> below
-              </h4>
-              <p className="grey-text text-darken-1">
-                Don't have an account? <Link to="/sign-up">Register</Link>
-              </p>
+
+    const onSubmit = e => {
+      e.preventDefault();
+      loginUser(formData); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
+      console.log(formData)
+      componentWillReceiveProps();
+    };
+
+  return (
+    <div className={classes.root}>
+      <Grid
+        className={classes.grid}
+        container
+      >
+        <Grid
+          className={classes.quoteContainer}
+          item
+          lg={5}
+        >
+          <div className={classes.quote}>
+            <div className={classes.quoteInner}>
+              <Typography
+                className={classes.quoteText}
+                variant="h1"
+              >
+                Your destination for the Animal Crossing community. 
+              </Typography>
+              <div className={classes.person}>
+                <Typography
+                  className={classes.name}
+                  variant="body1"
+                >
+                  Add friends, set prices, trade, and more!
+                </Typography>
+              </div>
             </div>
-            <form noValidate onSubmit={this.onSubmit}>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  id="email"
-                  type="email"
+          </div>
+        </Grid>
+        <Grid
+          className={classes.content}
+          item
+          lg={7}
+          xs={12}
+        >
+          <div className={classes.content}>
+            <div className={classes.contentBody}>
+            
+            <form
+                noValidate
+                className={classes.form}
+                onSubmit={onSubmit}
+              >
+                <Typography
+                  className={classes.title}
+                  variant="h2"
+                >
+                  Sign in
+                </Typography>
+                <TextField
                   className={classnames("", {
                     invalid: errors.email || errors.emailnotfound
-                  })}
+                  }, classes.textField)}
+                  error={errors.email}
+                  fullWidth
+                  // helperText={
+                  //   hasError('email') ? formState.errors.email[0] : null
+                  // }
+                  label="Email address"
+                  name="email"
+                  onChange={onChange}
+                  type="email"
+                  value={email}
+                  variant="outlined"
                 />
-                <label htmlFor="email">Email</label>
-                <span className="red-text">
-                  {errors.email}
-                  {errors.emailnotfound}
-                </span>
-              </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password}
-                  error={errors.password}
-                  id="password"
-                  type="password"
+                  <span className="red-text">
+                    {errors.email}
+                    {errors.emailnotfound}
+                  </span>
+                <TextField
                   className={classnames("", {
                     invalid: errors.password || errors.passwordincorrect
-                  })}
+                  }, classes.textField)}
+                  error={errors.password}
+                  fullWidth
+                  // helperText={
+                  //   hasError('password') ? formState.errors.password[0] : null
+                  // }
+                  label="Password"
+                  name="password"
+                  onChange={onChange}
+                  type="password"
+                  value={password}
+                  variant="outlined"
                 />
-                <label htmlFor="password">Password</label>
-                <span className="red-text">
-                  {errors.password}
-                  {errors.passwordincorrect}
-                </span>
-              </div>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-                <button
-                  style={{
-                    width: "150px",
-                    borderRadius: "3px",
-                    letterSpacing: "1.5px",
-                    marginTop: "1rem"
-                  }}
+                  <span className="red-text">
+                    {errors.password}
+                    {errors.passwordincorrect}
+                  </span>
+                <Button
+                  className={classes.signInButton}
+                  color="primary"
+                  // disabled={!formState.isValid}
+                  fullWidth
+                  size="large"
                   type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                  variant="contained"
                 >
-                  Login
-                </button>
-              </div>
-            </form>
+                  Sign in now
+                </Button>
+                <Typography
+                  color="textSecondary"
+                  variant="body1"
+                >
+                  Don't have an account?{' '}
+                  <Link to="/sign-up">
+                    Sign up
+                  </Link>
+                </Typography>
+              </form>
+            </div>
           </div>
-        </div>
-      </div>
-    );
-  }
-}
-Login.propTypes = {
+        </Grid>
+      </Grid>
+    </div>
+  );
+};
+
+SignIn.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
@@ -121,4 +278,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { loginUser }
-)(Login);
+)(withRouter(SignIn));
