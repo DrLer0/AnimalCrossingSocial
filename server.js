@@ -15,7 +15,7 @@ const app = express();
 // Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
-    extended: false
+    extended: false,
   })
 );
 app.use(bodyParser.json());
@@ -34,12 +34,13 @@ const db = require("./config/keys").mongoURI;
 
 // Connect to MongoDB
 mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false }
-  )
+  .connect(db, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
   .then(() => console.log("MongoDB successfully connected"))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 // Passport middleware
 app.use(passport.initialize());
@@ -49,15 +50,6 @@ require("./config/passport")(passport);
 app.use("/api/users", users);
 app.use("/api/profile", profile);
 app.use("/api/posts", posts);
-
-
-// Define API routes here
-// An api endpoint that returns a short list of items
-app.get('/api/getList', (req,res) => {
-  var list = ["item1", "item2", "item3"];
-  res.json(list);
-  console.log('Sent list of items');
-});
 
 // Send every other request to the React app
 // Define any API routes before this runs
