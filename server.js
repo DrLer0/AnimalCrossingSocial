@@ -30,14 +30,14 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // DB Config
-const db = require("./config/keys").mongoURI;
+const db = require("./config/keys").MONGODB_URI;
 
 // Connect to MongoDB
 mongoose
   .connect(db, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false,
+    useFindAndModify: false
   })
   .then(() => console.log("MongoDB successfully connected"))
   .catch((err) => console.log(err));
