@@ -33,16 +33,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const UserProfile = ({ 
-  profile: { 
-      handleName, 
-      islandName,
-      localFruit,
-      turnipPrice,
-      hotItem,
-      hotItemPrice,
-      entryFee,
-      user: { name, _id } = {} } }) => {
+const UserProfile = ({
+  profile: {
+    handleName,
+    islandName,
+    localFruit,
+    turnipPrice,
+    hotItem,
+    hotItemPrice,
+    entryFee,
+    dodoCode,
+    user: { name, _id } = {} } }) => {
   // const { className, ...rest } = props;
 
   // const { profile, user: { name }, ...rest } = props;
@@ -61,13 +62,13 @@ const UserProfile = ({
 
   return (
     <Card
-      // {...rest}
-      // className={clsx(classes.root, className)}
+    // {...rest}
+    // className={clsx(classes.root, className)}
     >
       <CardContent>
         <div className={classes.details}>
           <div>
-          <Typography
+            <Typography
               gutterBottom
               variant="h2"
             >
@@ -94,7 +95,7 @@ const UserProfile = ({
           </div>
           <Avatar
             className={classes.avatar}
-            // src={user.avatar}
+          // src={user.avatar}
           />
         </div>
         {/* <div className={classes.progress}>

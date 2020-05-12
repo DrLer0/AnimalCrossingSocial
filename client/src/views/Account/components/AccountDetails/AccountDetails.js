@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../../../actions/profileActions';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import isEmpty from '../../../../validations/is-empty'
+import isEmpty from '../../../../validations/is-empty';
 import {
   Card,
   CardHeader,
@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const AccountDetails = ({ profile: {profile}, createProfile, getCurrentProfile, history }) => {
+const AccountDetails = ({ profile: { profile }, createProfile, getCurrentProfile, history }) => {
   // const { className, ...rest } = props;
 
   // console.log(profile._id)
@@ -38,7 +38,8 @@ const AccountDetails = ({ profile: {profile}, createProfile, getCurrentProfile, 
     hotItemPrice: '',
     celeste: '',
     sahara: '',
-    entryFee: ''
+    entryFee: '',
+    dodoCode: ''
   });
 
   const {
@@ -50,19 +51,39 @@ const AccountDetails = ({ profile: {profile}, createProfile, getCurrentProfile, 
     hotItemPrice,
     celeste,
     sahara,
-    entryFee
+    entryFee,
+    dodoCode
   } = formData;
-  
-  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-  
+
+  useEffect(() => {
+    setFormData({ ...profile });
+  }, [profile]);
+
+  const onChange = e => {
+
+    // let newValue = e.target.value ? e.targe.value : " ";
+    // console.log("newvalue: ", newValue);
+    console.log("eeeee:", e.target.name, e.target.value);
+
+    if (e.target.value === "") {
+      e.target.value = " ";
+    }
+
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const onSubmit = e => {
     e.preventDefault();
     const userId = profile._id;
     createProfile(formData, history, userId);
     getCurrentProfile();
-  }
+  };
 
   const yesno = [
+    {
+      value: null,
+      label: 'Select One'
+    },
     {
       value: true,
       label: 'Yes'
@@ -75,8 +96,8 @@ const AccountDetails = ({ profile: {profile}, createProfile, getCurrentProfile, 
 
   return (
     <Card
-      // {...rest}
-      // className={clsx(classes.root, className)}
+    // {...rest}
+    // className={clsx(classes.root, className)}
     >
       <form
         autoComplete="off"
@@ -100,8 +121,8 @@ const AccountDetails = ({ profile: {profile}, createProfile, getCurrentProfile, 
             >
               <TextField
                 fullWidth
-                helperText="Your in-game handle name"
-                label="Handle name"
+                helperText="Your name in the game"
+                label="Character name"
                 margin="dense"
                 name="handleName"
                 onChange={e => onChange(e)}
@@ -132,7 +153,7 @@ const AccountDetails = ({ profile: {profile}, createProfile, getCurrentProfile, 
             >
               <TextField
                 fullWidth
-                helperText="Your current local island fruit"
+                helperText="Your island's local fruit"
                 label="Local fruit"
                 margin="dense"
                 name="localFruit"
@@ -157,7 +178,23 @@ const AccountDetails = ({ profile: {profile}, createProfile, getCurrentProfile, 
             >
               <TextField
                 fullWidth
-                helperText="Set your current turnip prices (in Bells Currency)"
+                helperText="What's your dodo code?"
+                label="Dodo Code"
+                margin="dense"
+                name="dodoCode"
+                onChange={e => onChange(e)}
+                value={dodoCode}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={12}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                helperText="Set your current turnip prices"
                 label="Current turnip price"
                 margin="dense"
                 name="turnipPrice"
@@ -173,7 +210,7 @@ const AccountDetails = ({ profile: {profile}, createProfile, getCurrentProfile, 
             >
               <TextField
                 fullWidth
-                helperText="Set your island entry fee (in Bells Currency)"
+                helperText="What is your entry fee (e.g. nook miles tickets, bells, etc.)"
                 label="Island entry fee"
                 margin="dense"
                 name="entryFee"
@@ -189,7 +226,7 @@ const AccountDetails = ({ profile: {profile}, createProfile, getCurrentProfile, 
             >
               <TextField
                 fullWidth
-                helperText="Top item you are looking to sell"
+                helperText="What's your island's hot item?"
                 label="Hot item"
                 margin="dense"
                 name="hotItem"
@@ -205,7 +242,7 @@ const AccountDetails = ({ profile: {profile}, createProfile, getCurrentProfile, 
             >
               <TextField
                 fullWidth
-                helperText="Set your hot item price (in Bells Currency)"
+                helperText="How much is it going for?"
                 label="Hot item price"
                 margin="dense"
                 name="hotItemPrice"
@@ -292,8 +329,8 @@ AccountDetails.propTypes = {
   profile: PropTypes.object.isRequired
 };
 
-const mapsStateToProps = (state) => ({ 
+const mapsStateToProps = (state) => ({
   profile: state.profile
-})
+});
 
 export default connect(mapsStateToProps, { createProfile, getCurrentProfile })(withRouter(AccountDetails));

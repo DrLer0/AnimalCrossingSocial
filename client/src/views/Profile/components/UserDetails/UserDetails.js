@@ -23,18 +23,19 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const UserDetails = ({ 
-    profile: { 
-        handleName, 
-        islandName,
-        localFruit,
-        turnipPrice,
-        hotItem,
-        hotItemPrice,
-        entryFee,
-        celeste,
-        sahara,
-        user: { name, _id } = {} } }) => {
+const UserDetails = ({
+  profile: {
+    handleName,
+    islandName,
+    localFruit,
+    turnipPrice,
+    hotItem,
+    hotItemPrice,
+    entryFee,
+    celeste,
+    sahara,
+    dodoCode,
+    user: { name, _id } = {} } }) => {
   // const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -72,66 +73,93 @@ const UserDetails = ({
 
   return (
     <Card>
-        <CardHeader
-          title="What's happening on this island!" 
-        />
-        <Divider />
-        <CardContent>
+      <CardHeader
+        title="What's happening on this island!"
+      />
+      <Divider />
+      <CardContent>
+        <Grid
+          container
+          spacing={3}
+        >
+
           <Grid
-            container
-            spacing={3}
+            item
+            md={6}
+            xs={12}
           >
-            <Grid
-              item
-              md={12}
-              xs={12}
-            >
-              <Typography variant="h3" gutterBottom>
+            <Typography variant="h4" gutterBottom>
+              <MoneyIcon /> Dodo code:
+              </Typography>
+            <Typography variant="body1" gutterBottom>
+              <b>{dodoCode}</b>
+            </Typography>
+          </Grid>
+
+          <Grid
+            item
+            md={6}
+            xs={12}
+          >
+            <Typography variant="h4" gutterBottom>
+              <MoneyIcon /> Entry fee:
+              </Typography>
+            <Typography variant="body1" gutterBottom>
+              <b>{entryFee}</b>
+            </Typography>
+          </Grid>
+
+          <Grid
+            item
+            md={12}
+            xs={12}
+          >
+            <Typography variant="h3" gutterBottom>
               <MoneyIcon /> Turnip prices:
               </Typography>
-              <Typography variant="body1" gutterBottom>
-                <b>{turnipPrice}</b> bells (Prices change at noon)
+            <Typography variant="body1" gutterBottom>
+              <b>{turnipPrice}</b> bells
               </Typography>
-            </Grid>
-            <Grid
-              item
-              md={12}
-              xs={12}
-            >
-              <Typography variant="h3" gutterBottom>
-                <WhatsHotIcon /> Hot item:
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                <b>{hotItem}: {hotItemPrice}</b> bells (Prices change at 5am local time)
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              md={12}
-              xs={12}
-            >
-              <Typography variant="h3" gutterBottom>
-                <EmojiNatureIcon /> Celeste is visiting
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                {celeste === true ? "Yes, there will be a visit" : "No, nothing scheduled"}  
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              md={12}
-              xs={12}
-            >
-              <Typography variant="h3" gutterBottom>
-                <PetsIcon /> Sahara is visiting
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                {sahara === true ? "Yes, there will be a visit" : "No, nothing scheduled"}
-              </Typography>
-            </Grid>
           </Grid>
-        </CardContent>
-    </Card>
+          <Grid
+            item
+            md={12}
+            xs={12}
+          >
+            <Typography variant="h3" gutterBottom>
+              <WhatsHotIcon /> Hot item:
+              </Typography>
+            <Typography variant="body1" gutterBottom>
+              <b>{hotItem}: {hotItemPrice}</b> bells
+              </Typography>
+          </Grid>
+          <Grid
+            item
+            md={12}
+            xs={12}
+          >
+            <Typography variant="h3" gutterBottom>
+              <EmojiNatureIcon /> Celeste is visiting
+              </Typography>
+            <Typography variant="body1" gutterBottom>
+              {celeste === true ? "Yes, there will be a visit" : "No, nothing scheduled"}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            md={12}
+            xs={12}
+          >
+            <Typography variant="h3" gutterBottom>
+              <PetsIcon /> Sahara is visiting
+              </Typography>
+            <Typography variant="body1" gutterBottom>
+              {sahara === true ? "Yes, there will be a visit" : "No, nothing scheduled"}
+            </Typography>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card >
   );
 };
 
