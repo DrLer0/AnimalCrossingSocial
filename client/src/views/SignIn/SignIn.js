@@ -9,12 +9,9 @@ import { makeStyles } from '@material-ui/styles';
 import {
   Grid,
   Button,
-  IconButton,
   TextField,
   Typography
 } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
 
 const useStyles = makeStyles(theme => ({
   root: {
