@@ -44,6 +44,7 @@ const UserProfile = ({
     hotItem,
     hotItemPrice,
     entryFee,
+    dodoCode,
     user: { name, _id } = {} }, auth }) => {
   // const { className, ...rest } = props;
 
