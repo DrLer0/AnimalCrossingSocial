@@ -13,7 +13,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
 import SettingsIcon from '@material-ui/icons/Settings';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
+// import LockOpenIcon from '@material-ui/icons/LockOpen';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 
 import { Profile, SidebarNav } from './components';

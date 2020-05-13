@@ -2,7 +2,7 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING, GET_POSTS } from "./types";
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
@@ -33,6 +33,23 @@ export const loginUser = (userData, history) => dispatch => {
       const decoded = jwt_decode(token);
       // Set current user
       dispatch(setCurrentUser(decoded));
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const getChatToken = (id) => dispatch => {
+  axios
+    .post("api/chatToken/get", id)
+    .then(res => {
+      dispatch({
+        type: GET_POSTS,
+        payload: res.data
+      });
     })
     .catch(err =>
       dispatch({
