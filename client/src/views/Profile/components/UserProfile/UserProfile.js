@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
+import { StreamChat } from 'stream-chat';
+import axios from "axios";
 import {
   Card,
   CardActions,
@@ -43,12 +45,10 @@ const UserProfile = ({
     hotItemPrice,
     entryFee,
     dodoCode,
-    user: { name, _id } = {} } }) => {
+    user: { name, _id } = {} }, auth }) => {
   // const { className, ...rest } = props;
 
   // const { profile, user: { name }, ...rest } = props;
-
-  // console.log(name);
 
   const classes = useStyles();
 
@@ -59,6 +59,32 @@ const UserProfile = ({
   //   timezone: 'GTM-7',
   //   avatar: '/images/avatars/avatar_3.png'
   // };
+
+  // id is from profile on screen
+  const chatWithUser = async () => {
+    const response = await axios.get(`/api/chatToken/get/${auth.user.id}`);
+    const chatClient = new StreamChat('vvj83ka3szt4', 'qmy8ps7sdze6d8jwb2ugxufyzm8y22aufh9933mbjzjvufwnpa52qrtmcb5weh7k');
+    const userToken = response.data.token;
+
+    chatClient.setUser(
+      {
+        id: auth.user.id,
+        name: auth.user.name.split(" ")[0],
+        image: 'https://getstream.io/random_svg/?name=' + auth.user.name.split(" ")[0],
+      },
+      userToken
+    );
+
+    // Create Conversation
+    const conversation = chatClient.channel('messaging',
+      {
+        name: name.split("")[0],
+        members: [auth.user.id, _id],
+      });
+    const res = await conversation.create();
+    const state = await conversation.watch();
+  };
+
 
   return (
     <Card
@@ -112,6 +138,7 @@ const UserProfile = ({
           className={classes.uploadButton}
           color="primary"
           variant="text"
+          onClick={chatWithUser}
         >
           Follow
         </Button>

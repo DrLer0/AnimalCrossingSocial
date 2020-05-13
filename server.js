@@ -9,8 +9,13 @@ const port = process.env.PORT || 3001; // process.env.port is Heroku's port if y
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
 const posts = require("./routes/api/posts");
+const chatToken = require("./routes/api/chatToken");
 // const designs = require("./routes/api/designs");
 const app = express();
+
+// Set up server client for Stream Chat
+var stream = require('getstream');
+client = stream.connect('4rp6s2sacz3q', 'hrbfmb2dx9hkjz24mttn4gshrndf235dvy7db5g4dgc7fy9c6pzkunjgdh55863s', '77693');
 
 // Bodyparser middleware
 app.use(
@@ -50,6 +55,7 @@ require("./config/passport")(passport);
 app.use("/api/users", users);
 app.use("/api/profile", profile);
 app.use("/api/posts", posts);
+app.use("/api/chatToken", chatToken);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === "production") {

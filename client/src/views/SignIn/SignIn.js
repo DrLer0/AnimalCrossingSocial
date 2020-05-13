@@ -107,7 +107,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SignIn = ({loginUser, auth, errors, history}) => {
+const SignIn = ({ loginUser, auth, errors, history }) => {
 
   const classes = useStyles();
 
@@ -120,32 +120,32 @@ const SignIn = ({loginUser, auth, errors, history}) => {
   const { email, password } = formData;
 
   if (auth.isAuthenticated) {
-    history.push("/dashboard"); 
+    history.push("/dashboard");
   }
 
   const componentWillReceiveProps = () => {
     // console.log(nextProps)
-      if (auth.isAuthenticated) {
-        history.push("/dashboard"); // push user to dashboard when they login
-        // return <Redirect to="/dashboard" />;
-      }
-      if (errors) {
-        setFormData({
-          errors: errors
-        });
-      }
+    if (auth.isAuthenticated) {
+      history.push("/dashboard"); // push user to dashboard when they login
+      // return <Redirect to="/dashboard" />;
     }
+    if (errors) {
+      setFormData({
+        errors: errors
+      });
+    }
+  };
 
-    const onChange = e => {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+  const onChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-    const onSubmit = e => {
-      e.preventDefault();
-      loginUser(formData); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
-      console.log(formData)
-      componentWillReceiveProps();
-    };
+  const onSubmit = e => {
+    e.preventDefault();
+    loginUser(formData); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
+    console.log(formData);
+    componentWillReceiveProps();
+  };
 
   return (
     <div className={classes.root}>
@@ -164,7 +164,7 @@ const SignIn = ({loginUser, auth, errors, history}) => {
                 className={classes.quoteText}
                 variant="h1"
               >
-                Your destination for the Animal Crossing community. 
+                Your destination for the Animal Crossing community.
               </Typography>
               <div className={classes.person}>
                 <Typography
@@ -185,8 +185,8 @@ const SignIn = ({loginUser, auth, errors, history}) => {
         >
           <div className={classes.content}>
             <div className={classes.contentBody}>
-            
-            <form
+
+              <form
                 noValidate
                 className={classes.form}
                 onSubmit={onSubmit}
@@ -213,10 +213,10 @@ const SignIn = ({loginUser, auth, errors, history}) => {
                   value={email}
                   variant="outlined"
                 />
-                  <span className="red-text">
-                    {errors.email}
-                    {errors.emailnotfound}
-                  </span>
+                <span className="red-text">
+                  {errors.email}
+                  {errors.emailnotfound}
+                </span>
                 <TextField
                   className={classnames("", {
                     invalid: errors.password || errors.passwordincorrect
@@ -233,10 +233,10 @@ const SignIn = ({loginUser, auth, errors, history}) => {
                   value={password}
                   variant="outlined"
                 />
-                  <span className="red-text">
-                    {errors.password}
-                    {errors.passwordincorrect}
-                  </span>
+                <span className="red-text">
+                  {errors.password}
+                  {errors.passwordincorrect}
+                </span>
                 <Button
                   className={classes.signInButton}
                   color="primary"

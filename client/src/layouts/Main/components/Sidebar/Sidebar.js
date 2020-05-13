@@ -14,6 +14,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
 import SettingsIcon from '@material-ui/icons/Settings';
 // import LockOpenIcon from '@material-ui/icons/LockOpen';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 
 import { Profile, SidebarNav } from './components';
 
@@ -41,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Sidebar = props => {
-  const { profile: {profile}, open, variant, onClose, className, ...rest } = props;
+  const { profile: { profile }, open, variant, onClose, className, ...rest } = props;
 
   const classes = useStyles();
 
@@ -80,6 +81,11 @@ const Sidebar = props => {
       title: 'Account',
       href: '/account',
       icon: <AccountBoxIcon />
+    },
+    {
+      title: 'Chat',
+      href: '/chat',
+      icon: <ChatBubbleIcon />
     },
     {
       title: 'Settings',
@@ -122,6 +128,6 @@ Sidebar.propTypes = {
 
 const mapStateToProps = state => ({
   profile: state.profile,
-})
+});
 
-export default connect(mapStateToProps, {getCurrentProfile})(Sidebar);
+export default connect(mapStateToProps, { getCurrentProfile })(Sidebar);
