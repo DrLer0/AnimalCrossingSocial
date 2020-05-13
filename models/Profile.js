@@ -17,22 +17,25 @@ const ProfileSchema = new Schema({
         type: String
     },
     turnipPrice: {
-        type: Number
+        type: String
     },
     hotItem: {
         type: String
     },
     hotItemPrice: {
-        type: Number
+        type: String
     },
     entryFee: {
-        type: Number
+        type: String
     },
     celeste: {
         type: Boolean
     },
     sahara: {
         type: Boolean
+    },
+    dodoCode: {
+        type: String
     },
     designs: {
         type: Schema.Types.ObjectId,

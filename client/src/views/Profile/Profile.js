@@ -13,11 +13,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Profile = ({ getProfileById, profile: {profile, user, loading}, auth, match }) => {
+const Profile = ({ getProfileById, profile: { profile, user, loading }, auth, match }) => {
   useEffect(() => {
     getProfileById(match.params.id);
   }, [getProfileById, match.params.id]);
-  
+
   // console.log(profile.user)
 
   const classes = useStyles();
@@ -35,7 +35,7 @@ const Profile = ({ getProfileById, profile: {profile, user, loading}, auth, matc
           xl={4}
           xs={12}
         >
-          <UserProfile profile={profile} />
+          <UserProfile profile={profile} auth={auth} />
         </Grid>
         <Grid
           item
@@ -55,11 +55,11 @@ Profile.propTypes = {
   getProfileById: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
-}
+};
 
 const mapStateToProps = state => ({
   profile: state.profile,
   auth: state.auth
-})
+});
 
 export default connect(mapStateToProps, { getProfileById })(Profile);
