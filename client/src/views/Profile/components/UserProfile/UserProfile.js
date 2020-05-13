@@ -78,7 +78,7 @@ const UserProfile = ({
     // Create Conversation
     const conversation = chatClient.channel('messaging',
       {
-        name: name.split("")[0],
+        name: name,
         members: [auth.user.id, _id],
       });
     const res = await conversation.create();
