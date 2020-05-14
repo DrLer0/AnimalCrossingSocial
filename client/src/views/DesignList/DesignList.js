@@ -26,11 +26,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Posts = ({ getPosts, post: { posts, loading } }) => {
+const Posts = ({ getPosts, post: { posts } }) => {
+  // const Posts = ({ getPosts, post: { posts: {images}, loading } }) => {
   useEffect(() => {
     getPosts();
   }, [getPosts]);
 
+  // const [ data ] = posts.images;
+
+  console.log(posts.images)
+  
   const classes = useStyles();
 
   // const [products] = useState(mockData);
@@ -43,17 +48,18 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
           container
           spacing={3}
         >
-          {posts.map(post => (
-            <Grid
-              item
-              key={post._id}
-              lg={4}
-              md={6}
-              xs={12}
-            >
-              <ProductCard post={post} />
-            </Grid>
-          ))}
+          {posts.images &&  
+            posts.images.map(image => (
+              <Grid
+                item
+                // key={image._id}
+                lg={4}
+                md={6}
+                xs={12}
+              >
+                <ProductCard image={image} />
+              </Grid>
+            ))}
         </Grid>
       </div>
       {/* <div className={classes.pagination}>

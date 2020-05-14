@@ -10,12 +10,16 @@ const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
 const posts = require("./routes/api/posts");
 const chatToken = require("./routes/api/chatToken");
-// const designs = require("./routes/api/designs");
+
 const app = express();
 
 // Set up server client for Stream Chat
-var stream = require('getstream');
-client = stream.connect('4rp6s2sacz3q', 'hrbfmb2dx9hkjz24mttn4gshrndf235dvy7db5g4dgc7fy9c6pzkunjgdh55863s', '77693');
+var stream = require("getstream");
+client = stream.connect(
+  "4rp6s2sacz3q",
+  "hrbfmb2dx9hkjz24mttn4gshrndf235dvy7db5g4dgc7fy9c6pzkunjgdh55863s",
+  "77693"
+);
 
 // Bodyparser middleware
 app.use(
@@ -46,6 +50,15 @@ mongoose
   })
   .then(() => console.log("MongoDB successfully connected"))
   .catch((err) => console.log(err));
+
+// cloudinary: configure using credentials found on your Cloudinary Dashboard
+// sign up for a free account here: https://cloudinary.com/users/register/free
+// const cloudinary = require("cloudinary");
+// cloudinary.config({
+//   cloud_name: "dxqacueyl",
+//   api_key: "552266528841512",
+//   api_secret: "gy5bAZjR_paARAc2I1pBm99SCUM",
+// });
 
 // Passport middleware
 app.use(passport.initialize());
