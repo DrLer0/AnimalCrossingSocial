@@ -6,7 +6,7 @@ import {ADD_POST, GET_POSTS, GET_ERRORS,POST_LOADING,CLEAR_ERRORS} from './types
 export const addPost = (postData) => dispatch => {
     dispatch(clearErrors());
     axios
-        .post('/api/posts',postData)
+        .post('/api/posts/',postData)
         .then(res => dispatch({
             type: ADD_POST,
             payload: res.data
@@ -16,6 +16,54 @@ export const addPost = (postData) => dispatch => {
             payload: err.response.data
         }))
 }
+
+// A function to send a POST request with a new image
+export const addImage = (form, extraParams) => {
+    // // the URL for the request
+    const url = "/api/posts/images";
+
+    // // The data we are going to send in our request
+    const imageData = new FormData(form);
+
+    imageData.append('user', extraParams.user);
+    imageData.append('name', extraParams.name);
+    
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: "post",
+        body: imageData
+    });
+    
+    console.log("HERE--------------------------------------")
+    console.log(form)
+    // Send the request with fetch()
+    fetch(request)
+        .then(function (res) {
+            // Handle response we get from the API.
+            // Usually check the error codes to see what happened.
+            if (res.status === 200) {
+                // If image was added successfully, tell the user.
+                // dashboardComp.setState({
+                //     message: {
+                //         body: "Success: Added an image.",
+                //         type: "success"
+                //     }
+                // });
+            } else {
+                // If server couldn't add the image, tell the user.
+                // Here we are adding a generic message, but you could be more specific in your app.
+                // dashboardComp.setState({
+                //     message: {
+                //         body: "Error: Could not add image.",
+                //         type: "error"
+                //     }
+                // });
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
 
 //Get Posts
 export const getPosts = () => dispatch => {

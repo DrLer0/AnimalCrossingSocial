@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getAllProfiles, getCurrentProfile } from "../../actions/profileActions"
+import { getAllProfiles, getCurrentProfile } from "../../actions/profileActions";
 import { logoutUser } from "../../actions/authActions";
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
@@ -23,9 +23,6 @@ const Dashboard = ({getAllProfiles, profile: { profiles, loading }, getCurrentPr
   useEffect(() => {
     getAllProfiles();
   }, [getAllProfiles]);
-  
-  console.log(profiles)
-  console.log(profile)
 
   const classes = useStyles();
 

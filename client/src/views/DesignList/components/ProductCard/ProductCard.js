@@ -21,8 +21,8 @@ import PersonIcon from '@material-ui/icons/Person';
 const useStyles = makeStyles(theme => ({
   root: {},
   imageContainer: {
-    height: 64,
-    width: 64,
+    height: 150,
+    width: 150,
     margin: '0 auto',
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: '5px',
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ProductCard = ({ auth, post: { _id, title, description, twitterLink, user, name, likes, date } }) => {
+const ProductCard = ({ auth, image: { image_url, title, description, twitterLink, name, created_at } }) => {
   // const { className, product, ...rest } = props;
 
   const classes = useStyles();
@@ -59,7 +59,8 @@ const ProductCard = ({ auth, post: { _id, title, description, twitterLink, user,
           <img
             alt="Product"
             className={classes.image}
-            src="/images/products/product_leaf.jpg"
+            // src="/images/products/product_leaf.jpg"
+            src={image_url}
           />
         </div>
         <Typography
@@ -97,7 +98,7 @@ const ProductCard = ({ auth, post: { _id, title, description, twitterLink, user,
               display="inline"
               variant="body2"
             >
-              Added: <Moment format="YYYY/MM/DD">{date}</Moment>
+              Added: <Moment format="MM/DD/YYYY">{created_at}</Moment>
             </Typography>
           </Grid>
           <Grid
@@ -120,8 +121,7 @@ const ProductCard = ({ auth, post: { _id, title, description, twitterLink, user,
 
 ProductCard.propTypes = {
   className: PropTypes.string,
-  // product: PropTypes.object.isRequired,
-  post: PropTypes.object.isRequired,
+  images: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 };
 
