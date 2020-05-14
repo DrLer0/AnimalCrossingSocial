@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addPost } from '../../../../actions/postActions'
+import { addPost, addImage } from '../../../../actions/postActions'
+import { getCurrentProfile } from "../../../../actions/profileActions";
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button, Modal, TextField } from '@material-ui/core';
@@ -70,7 +71,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ProductsToolbar = ({ addPost }) => {
+const ProductsToolbar = ({ addPost, auth }) => {
   // const { className, ...rest } = props;
   // const [title, setText] = useState("");
 
@@ -78,16 +79,26 @@ const ProductsToolbar = ({ addPost }) => {
     title: '',
     description: '',
     twitterLink: '',
+    image: ''
   });
 
   const {
     title,
     description,
-    twitterLink
+    twitterLink,
+    image
   } = formData;
 
-  const onChange = (e) =>
+  const extraParams = {
+    name: auth.user.name,
+    user: auth.user.id
+  };
+
+  // const { userData } = auth.user;
+
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
 
   const classes = useStyles();
 
@@ -107,9 +118,10 @@ const ProductsToolbar = ({ addPost }) => {
     <div style={modalStyle} className={classes.paper}>
       <form className={classes.form} onSubmit={e => {
         e.preventDefault();
+        // addImage(formData);
         addPost(formData);
         // setText("");
-        handleClose();
+        // handleClose();
       }}>
       <TextField
         className={classes.textField}
@@ -145,6 +157,10 @@ const ProductsToolbar = ({ addPost }) => {
         value={twitterLink}
         variant="outlined"
       />
+      <div class="image-form__field">
+                        <label>Image:</label>
+                        <input onChange={onChange} name="image" value={image} type="file" />
+                    </div>
         {/* <input></input>
         <input></input> */}
         <Button
@@ -159,6 +175,42 @@ const ProductsToolbar = ({ addPost }) => {
           Add
         </Button>
       </form>
+
+      <form className="image-form" onSubmit={(e) => {
+                    e.preventDefault();
+                    addImage(e.target, extraParams);
+                    handleClose();
+                }}>
+                    <div class="image-form__field">
+                        <label>Design title:</label>
+                        <input name="title" type="text" />
+                    </div>
+                    <div class="image-form__field">
+                        <label>Description:</label>
+                        <input name="description" type="text" />
+                    </div>
+                    <div class="image-form__field">
+                        <label>Twitter link to code:</label>
+                        <input name="twitterLink" type="text" />
+                    </div>
+                    <div class="image-form__field">
+                        <label>Image:</label>
+                        <input name="image" type="file" />
+                    </div>
+
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        className="image-form__submit-button"
+                    >
+                        Upload
+                    </Button>
+                </form>
+
+                {/* <p className={`image-form__message--${dashboard.state.message.type}`}>
+                    {dashboard.state.message.body}
+                </p> */}
     </div>
   );
 
@@ -199,7 +251,14 @@ const ProductsToolbar = ({ addPost }) => {
 
 ProductsToolbar.propTypes = {
   className: PropTypes.string,
-  addPost: PropTypes.func.isRequired
+  addPost: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
-export default connect(null, { addPost })(ProductsToolbar);
+const mapStateToProps = state => ({
+  profile: state.profile,
+  auth: state.auth
+})
+
+export default connect(mapStateToProps, { addPost, getCurrentProfile })(ProductsToolbar);
