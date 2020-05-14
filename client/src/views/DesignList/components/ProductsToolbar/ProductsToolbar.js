@@ -116,65 +116,6 @@ const ProductsToolbar = ({ addPost, auth }) => {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <form className={classes.form} onSubmit={e => {
-        e.preventDefault();
-        // addImage(formData);
-        addPost(formData);
-        // setText("");
-        // handleClose();
-      }}>
-      <TextField
-        className={classes.textField}
-        // error={hasError('password')}
-        fullWidth
-        // helperText={
-        //   hasError('password') ? formState.errors.password[0] : null
-        // }
-        label="Design Title"
-        name="title"
-        onChange={onChange}
-        type="text"
-        value={title}
-        variant="outlined"
-      />
-      <TextField
-        className={classes.textField}
-        fullWidth
-        label="Description"
-        name="description"
-        onChange={onChange}
-        type="text"
-        value={description}
-        variant="outlined"
-      />
-      <TextField
-        className={classes.textField}
-        fullWidth
-        label="Twitter link to code"
-        name="twitterLink"
-        onChange={onChange}
-        type="text"
-        value={twitterLink}
-        variant="outlined"
-      />
-      <div class="image-form__field">
-                        <label>Image:</label>
-                        <input onChange={onChange} name="image" value={image} type="file" />
-                    </div>
-        {/* <input></input>
-        <input></input> */}
-        <Button
-          className={classes.addButton}
-          color="primary"
-          // disabled={!formState.isValid}
-          fullWidth
-          size="large"
-          type="submit"
-          variant="contained"
-        >
-          Add
-        </Button>
-      </form>
 
       <form className="image-form" onSubmit={(e) => {
                     e.preventDefault();

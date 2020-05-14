@@ -56,13 +56,15 @@ const ProductCard = ({ auth, image: { image_url, title, description, twitterLink
     >
       <CardContent>
         <div className={classes.imageContainer}>
-          <img
-            alt="Product"
-            className={classes.image}
-            // src="/images/products/product_leaf.jpg"
-            src={image_url}
-          />
-        </div>
+          <Link href={image_url} target="_blank" rel="noopener">
+            <img
+              alt="Product"
+              className={classes.image}
+              // src="/images/products/product_leaf.jpg"
+              src={image_url}
+            />
+          </Link>
+          </div>
         <Typography
           align="center"
           gutterBottom
